@@ -2,8 +2,9 @@
 #include "fmt_util.h"
 #include <inttypes.h>
 
+/* See the description in fmt_util.h */
 const char *
-fmt_spec_len2str(fmt_specifier_len len)
+fmt_spec_len2str(fmt_spec_len len)
 {
 	switch (len)
 	{
@@ -22,8 +23,9 @@ fmt_spec_len2str(fmt_specifier_len len)
 	}
 }
 
+/* See the description in fmt_util.h */
 const char *
-fmt_spec_type2str(fmt_specifier_type type)
+fmt_spec_type2str(fmt_spec_type type)
 {
 	switch (type)
 	{
@@ -42,8 +44,22 @@ fmt_spec_type2str(fmt_specifier_type type)
 	}
 }
 
+static void
+print_str_from_to(const char *start, const char *end, FILE *f)
+{
+	const char *ptr;
+
+	fputc('\'', f);
+	for (ptr = start; ptr != end; ++ptr)
+	{
+		fputc(*ptr, f);
+	}
+	fputc('\'', f);
+}
+
+/* See the description in fmt_util.h */
 fmt_status
-fmt_spec_print(fmt_specifier *spec, FILE *f)
+fmt_spec_print(fmt_spec *spec, FILE *f)
 {
 	int 		retval;
 	fmt_bool 	write_one = FMT_FALSE;
@@ -72,7 +88,7 @@ fmt_spec_print(fmt_specifier *spec, FILE *f)
 	{
 		case FMT_SPEC_KIND_STRING:
 		{
-			TRY_PRINTF("string of len %" PRIuPTR,
+			TRY_PRINTF("string of len %" PRIuPTR ": ",
 					   spec->str_end - spec->str_start);
 			break;
 		}
@@ -122,9 +138,14 @@ fmt_spec_print(fmt_specifier *spec, FILE *f)
 			{
 				TRY_PRINTF("type %s", fmt_spec_type2str(spec->type));
 			}
+			TRY_PRINTF(": ");
 			break;
 		}
 	}
+
+	print_str_from_to(spec->str_start, spec->str_end, f);
+
+#undef TRY_PRINTF
 
 	return FMT_EOK;
 }

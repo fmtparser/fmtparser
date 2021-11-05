@@ -1,21 +1,13 @@
 #include "fmt_parser.h"
 #include <string.h>
 #include <stdio.h>
+#include "parser_internal.h"
 #include "util_internal.h"
+#include "debug_internal.h"
 
-//#define FMT_DEBUG
-
-#ifdef FMT_DEBUG
-#define DBG(__fmt, __x...) \
-    do {                                                                    \
-        fprintf(stderr, "%s: " __fmt "\n", __FUNCTION__, __x);              \
-    } while (0)
-#else
-#define DBG(...)
-#endif
 /* Read parameter value */
 static fmt_status
-fmt_read_parameter(const char **fmt, fmt_specifier *spec)
+fmt_read_parameter(const char **fmt, fmt_spec *spec)
 {
     int num = 0;
 
@@ -46,7 +38,7 @@ fmt_read_parameter(const char **fmt, fmt_specifier *spec)
 
 /* Read flags */
 static fmt_status
-fmt_read_flags(const char **fmt, fmt_specifier *spec)
+fmt_read_flags(const char **fmt, fmt_spec *spec)
 {
     int      num = 0;
     fmt_bool found = FMT_FALSE;
@@ -101,7 +93,7 @@ fmt_read_flags(const char **fmt, fmt_specifier *spec)
 
 /* Read width */
 static fmt_status
-fmt_read_width(const char **fmt, fmt_specifier *spec)
+fmt_read_width(const char **fmt, fmt_spec *spec)
 {
     int      width = 0;
     fmt_bool found = FMT_FALSE;
@@ -139,7 +131,7 @@ fmt_read_width(const char **fmt, fmt_specifier *spec)
 
 /* Read length */
 static fmt_status
-fmt_read_length(const char **fmt, fmt_specifier *spec)
+fmt_read_length(const char **fmt, fmt_spec *spec)
 {
     int width = 0;
 
@@ -207,7 +199,7 @@ fmt_read_length(const char **fmt, fmt_specifier *spec)
 
 /* Read type */
 static fmt_status
-fmt_read_type(const char **fmt, fmt_specifier *spec)
+fmt_read_type(const char **fmt, fmt_spec *spec)
 {
     while (**fmt)
     {
@@ -263,14 +255,12 @@ fmt_read_type(const char **fmt, fmt_specifier *spec)
     if (spec->type == FMT_SPEC_TYPE_UNKNOWN)
         return FMT_EFAIL;
 
-    INC_FMT();
-
     return FMT_EOK;
 }
 
 /* See the description in fmt_parser.h */
 fmt_status
-fmt_read_one(const char **fmt, fmt_specifier *spec)
+fmt_read_one(const char **fmt, fmt_spec *spec)
 {
     if (fmt == NULL || spec == NULL)
         return FMT_EINVAL;
@@ -349,13 +339,15 @@ fmt_read_one(const char **fmt, fmt_specifier *spec)
     return FMT_EOK;
 }
 
+/* See the description in fmt_parser.h */
 void
-fmt_spec_init(fmt_specifier *spec)
+fmt_spec_init(fmt_spec *spec)
 {
-    memset(spec, 0, sizeof(fmt_specifier));
+    memset(spec, 0, sizeof(fmt_spec));
     spec->parameter = -1;
 }
 
+/* See the description in fmt_parser.h */
 fmt_bool
 fmt_read_is_ok(fmt_status status)
 {
