@@ -1,6 +1,7 @@
 #ifndef FMT_SPEC_LEN_H
 #define FMT_SPEC_LEN_H
 
+/** Specifier lengths */
 typedef enum fmt_spec_len
 {
     /* See possible values in fmt_vals.def */
