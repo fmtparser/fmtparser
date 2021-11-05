@@ -7,6 +7,7 @@ int main()
 	char 		input[1024];
 	const char *tmp = input;
 	fmt_spec 	spec;
+	fmt_status  status;
 
 	fgets(input, sizeof(input), stdin);
 
@@ -14,12 +15,13 @@ int main()
 
 	fmt_spec_init(&spec);
 
-	while (fmt_read_is_ok(fmt_read_one(&tmp, &spec)))
+	while (fmt_read_is_ok(status = fmt_read_one(&tmp, &spec)))
 	{
 		printf("Segment: ");
 		fmt_spec_print(&spec, stdout);
 		printf("\n");
 		fmt_spec_init(&spec);
 	}
-	return 0;
+
+	return (status == FMT_EEOL || status == FMT_EOK) ? 0 : 1;
 }
