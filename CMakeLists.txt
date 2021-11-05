@@ -2,5 +2,11 @@ cmake_minimum_required(VERSION 3.16)
 
 project(fmt_reader_main)
 
+option(ENABLE_STATIC "Enable static build" ON)
+option(ENABLE_TEST "Enable tests" OFF)
+
 add_subdirectory(lib)
-add_subdirectory(test)
+
+if (ENABLE_TEST)
+	add_subdirectory(test)
+endif ()
