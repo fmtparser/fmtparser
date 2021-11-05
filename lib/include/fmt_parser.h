@@ -10,6 +10,10 @@
 #include "fmt_bool.h"
 #include "fmt_spec.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /**
  * Initialize format specifier
  *
@@ -35,5 +39,10 @@ extern fmt_status fmt_read_one(const char **fmt, fmt_spec *spec);
  * @return     @c FMT_TRUE if read can be continued, @c FMT_FALSE otherwise
  */
 extern fmt_bool fmt_read_is_ok(fmt_status status);
+
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
