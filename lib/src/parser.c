@@ -51,27 +51,27 @@ fmt_read_flags(const char **fmt, fmt_spec *spec)
         switch (c)
         {
             case '-':
-                spec->flags.minus = 1;
+                spec->flags.left_align = FMT_TRUE;
                 found = FMT_TRUE;
                 break;
             case '+':
-                spec->flags.plus = 1;
+                spec->flags.prepend_plus = 1;
                 found = FMT_TRUE;
                 break;
             case ' ':
-                spec->flags.space = 1;
+                spec->flags.prepend_space = 1;
                 found = FMT_TRUE;
                 break;
             case '0':
-                spec->flags.zero = 1;
+                spec->flags.prepend_zero = 1;
                 found = FMT_TRUE;
                 break;
             case '\'':
-                spec->flags.apostrophe = 1;
+                spec->flags.thousands_grouping = 1;
                 found = FMT_TRUE;
                 break;
             case '#':
-                spec->flags.hash = 1;
+                spec->flags.alternate = 1;
                 found = FMT_TRUE;
                 break;
             default:

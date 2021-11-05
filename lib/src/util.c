@@ -98,27 +98,27 @@ fmt_spec_print(fmt_spec *spec, FILE *f)
 			{
 				TRY_PRINTF("parameter %d", spec->parameter);
 			}
-			if (spec->flags.minus)
+			if (spec->flags.left_align)
 			{
 				TRY_PRINTF("left align");
 			}
-			if (spec->flags.plus)
+			if (spec->flags.prepend_plus)
 			{
 				TRY_PRINTF("prepend plus");
 			}
-			if (spec->flags.space)
+			if (spec->flags.prepend_space)
 			{
 				TRY_PRINTF("prepend space");
 			}
-			if (spec->flags.zero)
+			if (spec->flags.prepend_zero)
 			{
 				TRY_PRINTF("prepend zeros");
 			}
-			if (spec->flags.apostrophe)
+			if (spec->flags.thousands_grouping)
 			{
 				TRY_PRINTF("thousands grouping");
 			}
-			if (spec->flags.hash)
+			if (spec->flags.alternate)
 			{
 				TRY_PRINTF("alternate form");
 			}

@@ -8,27 +8,32 @@
 
 typedef struct fmt_spec
 {
-    fmt_spec_kind kind;
-    fmt_spec_type type;
-    const char *str_start;
-    const char *str_end;
+    fmt_spec_kind kind;                 /**< Specifier kind */
+    const char   *str_start;            /**< Pointer to start position in
+                                             format string */
+    const char   *str_end;              /**< Pointer to end position in
+                                             format string */
 
-    int parameter;
+    int           parameter;            /**< Parameter number */
 
     struct
     {
-        fmt_bool minus:1;
-        fmt_bool plus:1;
-        fmt_bool space:1;
-        fmt_bool zero:1;
-        fmt_bool apostrophe:1;
-        fmt_bool hash:1;
+        fmt_bool left_align:1;          /**< Left alignment, set by minus */
+        fmt_bool prepend_plus:1;        /**< Prepend plus, set by plus */
+        fmt_bool prepend_space:1;       /**< Prepend spaces, set by space */
+        fmt_bool prepend_zero:1;        /**< Prepend zeros, set by zero */
+        fmt_bool thousands_grouping:1;  /**< Thousands grouping, set by
+                                             apostrophe */
+        fmt_bool alternate:1;           /**< Alternate form, set by hash */
     } flags;
 
-    fmt_bool width:1;
-    fmt_bool precision:1;
+    fmt_bool width:1;                   /**< Width is provided as a separate
+                                             parameter */
+    fmt_bool precision:1;               /**< Precision is provided as a separate
+                                             parameter */
 
-    fmt_spec_len len;
+    fmt_spec_len len;                   /**< Length specifier */
+    fmt_spec_type type;                 /**< Type specifier */
 
 } fmt_spec;
 
