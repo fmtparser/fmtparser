@@ -1,30 +1,40 @@
 #include "fmt_parser.h"
 #include "fmt_util.h"
-#include <stdio.h>
 #include "gtest/gtest.h"
+#include "wrap.hpp"
 
-int test()
+TEST(Masks, str_ld_s)
 {
-    char       input[1024];
-    const char *tmp = input;
+    const char *str = "Hello, %157$02ld test %*s world!";
     fmt_spec    spec;
     fmt_status  status;
-
-    fgets(input, sizeof(input), stdin);
-
-    printf("INPUT: %s\n", input);
+    const char *tmp = str;
 
     fmt_spec_init(&spec);
 
-    while (fmt_read_is_ok(status = fmt_read_one(&tmp, &spec)))
-    {
-        printf("Segment: ");
-        fmt_spec_print(&spec, stdout);
-        printf("\n");
-        fmt_spec_init(&spec);
-    }
+    ASSERT_EQ(fmt_init_read(&tmp, &spec), FMT_EOK);
+    EXPECT_STRING();
+    EXPECT_STR("Hello, ");
 
-    return (status == FMT_EEOL || status == FMT_EOK) ? 0 : 1;
+    ASSERT_EQ(fmt_init_read(&tmp, &spec), FMT_EOK);
+    EXPECT_PATTERN();
+    EXPECT_STR("%157$02ld");
+    EXPECT_PARAM(157);
+    EXPECT_FLAGS(prepend_zero);
+
+    ASSERT_EQ(fmt_init_read(&tmp, &spec), FMT_EOK);
+    EXPECT_STRING();
+    EXPECT_STR(" test ");
+
+    ASSERT_EQ(fmt_init_read(&tmp, &spec), FMT_EOK);
+    EXPECT_PATTERN();
+    EXPECT_STR("%*s");
+
+    ASSERT_EQ(fmt_init_read(&tmp, &spec), FMT_EOK);
+    EXPECT_STRING();
+    EXPECT_STR(" world!");
+
+    ASSERT_EQ(fmt_init_read(&tmp, &spec), FMT_EEOL);
 }
 
 int
