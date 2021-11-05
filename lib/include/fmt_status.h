@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief Status code definitions
+ * @author Maxim Menshikov (maxim@menshikov.org)
+ */
 #ifndef FMT_STATUS_H
 #define FMT_STATUS_H
 

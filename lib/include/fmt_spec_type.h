@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief Format type specifier definitions
+ * @author Maxim Menshikov (maxim@menshikov.org)
+ */
 #ifndef FMT_SPEC_TYPE_H
 #define FMT_SPEC_TYPE_H
 

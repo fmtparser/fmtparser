@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief Format length specifier definitions
+ * @author Maxim Menshikov (maxim@menshikov.org)
+ */
 #ifndef FMT_SPEC_LEN_H
 #define FMT_SPEC_LEN_H
 

@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief fmtparser utility definitions
+ * @author Maxim Menshikov (maxim@menshikov.org)
+ */
 #ifndef FMT_UTIL_H
 #define FMT_UTIL_H
 

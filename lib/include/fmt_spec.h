@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief Specifier definitions
+ * @author Maxim Menshikov (maxim@menshikov.org)
+ */
 #ifndef FMT_SPEC_H
 #define FMT_SPEC_H
 

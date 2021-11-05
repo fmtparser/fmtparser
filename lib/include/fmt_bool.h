@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief fmtparser bool definitions
+ * @author Maxim Menshikov (maxim@menshikov.org)
+ */
 #ifndef FMT_BOOL_H
 #define FMT_BOOL_H
 

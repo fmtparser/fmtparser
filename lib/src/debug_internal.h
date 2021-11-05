@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief Internal debug definitions
+ * @author Maxim Menshikov (maxim@menshikov.org)
+ */
 #ifndef FMT_DEBUG_INTERNAL_H
 #define FMT_DEBUG_INTERNAL_H
 

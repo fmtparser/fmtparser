@@ -1,4 +1,4 @@
-/* fmt_specifier_len */
+/* fmt_spec_len */
 #ifndef FMT_SPEC_LEN_VALUE
 #define FMT_SPEC_LEN_VALUE(...)
 #endif
@@ -15,7 +15,7 @@ FMT_SPEC_LEN_VALUE(t)
 
 #undef FMT_SPEC_LEN_VALUE
 
-/* fmt_specifier_type */
+/* fmt_spec_type */
 #ifndef FMT_SPEC_TYPE_VALUE
 #define FMT_SPEC_TYPE_VALUE(...)
 #endif

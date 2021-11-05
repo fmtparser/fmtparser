@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief fmtparser API
+ * @author Maxim Menshikov (maxim@menshikov.org)
+ */
 #ifndef FMT_READER_H
 #define FMT_READER_H
 
