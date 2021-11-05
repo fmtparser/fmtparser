@@ -6,6 +6,8 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
+      - name: Get latest CMake and ninja
+        uses: lukka/get-cmake@latest
       - run: ./tools/make.sh --test
       - run: mkdir -p test-results
       - run: ./build/unittest/fmtreader_test --gtest_output=xml:test-results/test-linux.xml
