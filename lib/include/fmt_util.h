@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief fmtparser utility definitions
+ * @brief fmtparser utility API
  * @author Maxim Menshikov (maxim@menshikov.org)
  */
 #ifndef FMT_UTIL_H

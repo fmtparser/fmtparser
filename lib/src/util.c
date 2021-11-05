@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief fmtparser utility API implementation
+ * @author Maxim Menshikov (maxim@menshikov.org)
+ */
 #include "fmt_parser.h"
 #include "fmt_util.h"
 #include <inttypes.h>
