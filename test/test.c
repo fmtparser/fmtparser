@@ -4,11 +4,13 @@
 
 int main()
 {
-	char 	   *fmt = "Hello, %157$02ld test %*s world!";
-	const char *tmp = fmt;
+	char 		input[1024];
+	const char *tmp = input;
 	fmt_spec 	spec;
 
-	printf("%s\n", fmt);
+	fgets(input, sizeof(input), stdin);
+
+	printf("INPUT: %s\n", input);
 
 	fmt_spec_init(&spec);
 
