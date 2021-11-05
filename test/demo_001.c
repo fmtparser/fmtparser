@@ -6,8 +6,7 @@ int main()
 {
 	char 	   *fmt = "Hello, %157$02ld test %*s world!";
 	const char *tmp = fmt;
-
-	fmt_specifier spec;
+	fmt_spec 	spec;
 
 	printf("%s\n", fmt);
 
