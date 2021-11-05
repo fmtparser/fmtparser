@@ -6,6 +6,7 @@
 #include "fmt_spec_len.h"
 #include "fmt_spec_type.h"
 
+/** Format specifier segment. It may mean a string or a %-something mask */
 typedef struct fmt_spec
 {
     fmt_spec_kind kind;                 /**< Specifier kind */
@@ -13,9 +14,7 @@ typedef struct fmt_spec
                                              format string */
     const char   *str_end;              /**< Pointer to end position in
                                              format string */
-
     int           parameter;            /**< Parameter number */
-
     struct
     {
         fmt_bool left_align:1;          /**< Left alignment, set by minus */
@@ -26,15 +25,12 @@ typedef struct fmt_spec
                                              apostrophe */
         fmt_bool alternate:1;           /**< Alternate form, set by hash */
     } flags;
-
     fmt_bool width:1;                   /**< Width is provided as a separate
                                              parameter */
     fmt_bool precision:1;               /**< Precision is provided as a separate
                                              parameter */
-
     fmt_spec_len len;                   /**< Length specifier */
     fmt_spec_type type;                 /**< Type specifier */
-
 } fmt_spec;
 
 #endif
