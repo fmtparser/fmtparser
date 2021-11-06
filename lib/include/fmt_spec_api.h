@@ -3,8 +3,8 @@
  * @brief fmtparser specifier API
  * @author Maxim Menshikov (maxim@menshikov.org)
  */
-#ifndef FMT_READER_H
-#define FMT_READER_H
+#ifndef FMT_SPEC_API_H
+#define FMT_SPEC_API_H
 
 #include "fmt_bool.h"
 #include "fmt_spec.h"
@@ -23,11 +23,30 @@ extern "C"
  */
 
     /**
+     * Format specifier flag
+     */
+    typedef enum fmt_flag {
+        FMT_FLAG_LEFT_ALIGN = 0,    /**< Left align flag */
+        FMT_FLAG_PREPEND_PLUS,      /**< Prepend plus flag */
+        FMT_FLAG_PREPEND_SPACE,     /**< Prepend space flag */
+        FMT_FLAG_PREPEND_ZERO,      /**< Prepend zero flag */
+        FMT_FLAG_THOUSANDS_GROUPING,/**< Enable thousands grouping */
+        FMT_FLAG_ALTERNATE,         /**< Enable alternate form */
+    } fmt_flag;
+
+    /**
      * Allocate specifier and initialize it
      *
      * @return Newly allocated format specifier
      */
     extern fmt_spec *fmt_spec_alloc(void);
+
+    /**
+     * Free allocated specifier
+     *
+     * @param      spec  Pointer to the specifier
+     */
+    extern void fmt_spec_free(fmt_spec *spec);
 
     /**
      * Get kind of a specifier
@@ -94,6 +113,16 @@ extern "C"
      * @return     Actual type in terms of @p fmt_spec_type enumeration
      */
     extern uint32_t fmt_spec_get_type(fmt_spec *spec);
+
+    /**
+     * Get flag of a specifier
+     *
+     * @param      spec  The specifier
+     * @param      flag  The flag of @p fmt_flag enumeration
+     *
+     * @return     @c FMT_TRUE if flag is set, @c FMT_FALSE otherwise
+     */
+    extern fmt_bool fmt_spec_get_flag(fmt_spec *spec, fmt_flag flag);
 
 /** @} */
 
