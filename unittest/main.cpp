@@ -196,6 +196,22 @@ TEST(Masks, valplusA)
     ASSERT_EQ(fmt_init_read(&tmp, &spec), FMT_EEOL);
 }
 
+TEST(Masks, valprecision)
+{
+    const char *str = "%.*s";
+    fmt_spec    spec;
+    fmt_status  status;
+    const char *tmp = str;
+
+    ASSERT_EQ(fmt_init_read(&tmp, &spec), FMT_EOK);
+    EXPECT_PATTERN();
+    EXPECT_STR("%.*s");
+    EXPECT_TYPE(s);
+    EXPECT_PRECISION();
+
+    ASSERT_EQ(fmt_init_read(&tmp, &spec), FMT_EEOL);
+}
+
 int
 main(int argc, char **argv)
 {
