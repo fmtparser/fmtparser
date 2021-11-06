@@ -46,15 +46,15 @@ fmt_read_parameter(const fmt_char **fmt, fmt_spec *spec)
 
 /* Read flags */
 static fmt_status
-fmt_read_flags(const char **fmt, fmt_spec *spec)
+fmt_read_flags(const fmt_char **fmt, fmt_spec *spec)
 {
     uint32_t num = 0;
     fmt_bool found = FMT_FALSE;
 
     while (**fmt)
     {
-        const char c = **fmt;
-        fmt_bool   stop = FMT_FALSE;
+        const fmt_char  c = **fmt;
+        fmt_bool        stop = FMT_FALSE;
 
         switch (c)
         {
@@ -150,7 +150,7 @@ fmt_read_precision(const fmt_char **fmt, fmt_spec *spec)
 
     while (**fmt)
     {
-        const char c = **fmt;
+        const fmt_char c = **fmt;
 
         if (c >= FMT_CHAR_CONV('0') && c <= FMT_CHAR_CONV('9'))
         {
