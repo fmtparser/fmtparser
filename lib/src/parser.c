@@ -131,7 +131,6 @@ fmt_read_width(const char **fmt, fmt_spec *spec)
     if (!found)
         return FMT_ESTATE;
 
-    INC_FMT();
     spec->width = width;
 
     return FMT_EOK;
