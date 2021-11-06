@@ -44,7 +44,9 @@ fmt_init_read(const char **fmt, fmt_spec *spec)
                   (__flags & alternate) ? FMT_TRUE : FMT_FALSE);            \
     } while (0)
 
-#define EXPECT_WIDTH() ASSERT_EQ(spec.width, FMT_TRUE)
-#define EXPECT_PRECISION() ASSERT_EQ(spec.precision, FMT_TRUE)
+#define EXPECT_WIDTH(__val) ASSERT_EQ(spec.width, (__val))
+#define EXPECT_WIDTH_OOL() ASSERT_EQ(spec.width, FMT_VALUE_OUT_OF_LINE)
+#define EXPECT_PRECISION(__val) ASSERT_EQ(spec.precision, (__val))
+#define EXPECT_PRECISION_OOL() ASSERT_EQ(spec.precision, FMT_VALUE_OUT_OF_LINE)
 #define EXPECT_LEN(__name) ASSERT_EQ(spec.len, FMT_SPEC_LEN_ ##__name)
 #define EXPECT_TYPE(__name) ASSERT_EQ(spec.type, FMT_SPEC_TYPE_ ##__name)

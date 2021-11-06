@@ -207,7 +207,7 @@ TEST(Masks, valprecisions)
     EXPECT_PATTERN();
     EXPECT_STR("%.*s");
     EXPECT_TYPE(s);
-    EXPECT_PRECISION();
+    EXPECT_PRECISION_OOL();
 
     ASSERT_EQ(fmt_init_read(&tmp, &spec), FMT_EEOL);
 }
@@ -223,7 +223,7 @@ TEST(Masks, valwidths)
     EXPECT_PATTERN();
     EXPECT_STR("%3s");
     EXPECT_TYPE(s);
-    EXPECT_WIDTH();
+    EXPECT_WIDTH(3);
 
     ASSERT_EQ(fmt_init_read(&tmp, &spec), FMT_EEOL);
 }
