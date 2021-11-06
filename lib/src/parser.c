@@ -15,6 +15,7 @@ static fmt_status
 fmt_read_parameter(const char **fmt, fmt_spec *spec)
 {
     int num = 0;
+    const char *old_fmt = *fmt;
 
     while (**fmt)
     {
@@ -37,6 +38,8 @@ fmt_read_parameter(const char **fmt, fmt_spec *spec)
         }
         INC_FMT();
     }
+
+    *fmt = old_fmt;
 
     return FMT_ESTATE;
 }
