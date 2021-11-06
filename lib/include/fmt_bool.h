@@ -8,6 +8,7 @@
 
 #include <stdbool.h>
 
+/** Builtin bool type */
 typedef bool fmt_bool;
 
 #define FMT_FALSE false

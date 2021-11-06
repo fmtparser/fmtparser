@@ -13,6 +13,13 @@
 #include "fmt_spec_len.h"
 #include "fmt_spec_type.h"
 
+/**
+ * @addtogroup fmt_spec Format specifier
+ * Format specifier is a single segment parsed from the format string.
+ * There may be many of them. They should be read using @p fmt_read_one().
+ * @{
+ */
+
 #ifndef FMT_CHAR_TYPE
 /** Externally-defined char type */
 #define FMT_CHAR_TYPE char
@@ -24,6 +31,7 @@
 #define FMT_CHAR_CONV(__chr) ((fmt_char)(__chr))
 #endif
 
+/** The value is defined out of line as a separate parameter */
 #define FMT_VALUE_OUT_OF_LINE (-1)
 
 /**
@@ -62,5 +70,13 @@ typedef struct fmt_spec
     uint32_t type; /**< Type specifier belonging to
                         @p fmt_spec_type type */
 } fmt_spec;
+
+/**
+ * @addtogroup fmt_spec_fields Format specifier fields
+ * @{
+ * @}
+ */
+
+/** @} */
 
 #endif

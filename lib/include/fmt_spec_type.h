@@ -6,6 +6,14 @@
 #ifndef FMT_SPEC_TYPE_H
 #define FMT_SPEC_TYPE_H
 
+/**
+ * @addtogroup fmt_spec_type Specifier type
+ * @ingroup fmt_spec_fields
+ * The specifier type explicitly assigns a type to a printf() parameter.
+ * It can be one of a limited set of options including integer, hex
+ * representation, floating point numbers, etc.
+ * @{
+ */
 /** Specifier types */
 typedef enum fmt_spec_type
 {
@@ -14,4 +22,7 @@ typedef enum fmt_spec_type
 #include "fmt_vals.def"
 } fmt_spec_type;
 
+/**
+ * @}
+ */
 #endif

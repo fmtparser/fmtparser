@@ -15,6 +15,12 @@ extern "C"
 {
 #endif
 
+/**
+ * @addtogroup fmt_util Utility functions
+ * Non-vital functions
+ * @{
+ */
+
     /**
      * Print format specifier
      *
@@ -43,6 +49,7 @@ extern "C"
      */
     extern const char *fmt_spec_type2str(fmt_spec_type type);
 
+/** @} */
 
 #ifdef __cplusplus
 }
