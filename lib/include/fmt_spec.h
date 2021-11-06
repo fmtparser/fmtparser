@@ -6,6 +6,8 @@
 #ifndef FMT_SPEC_H
 #define FMT_SPEC_H
 
+#include <inttypes.h>
+
 #include "fmt_bool.h"
 #include "fmt_spec_kind.h"
 #include "fmt_spec_len.h"
@@ -16,12 +18,13 @@
 /** Format specifier segment. It may mean a string or a %-something mask */
 typedef struct fmt_spec
 {
-    fmt_spec_kind kind;                 /**< Specifier kind */
-    const char   *str_start;            /**< Pointer to start position in
+    uint32_t    kind;                   /**< Specifier kind belonging to
+                                             @p fmt_spec_kind type */
+    const char *str_start;              /**< Pointer to start position in
                                              format string */
-    const char   *str_end;              /**< Pointer to end position in
+    const char *str_end;                /**< Pointer to end position in
                                              format string */
-    int           parameter;            /**< Parameter number */
+    uint32_t    parameter;              /**< Parameter number */
     struct
     {
         fmt_bool left_align:1;          /**< Left alignment, set by minus */
@@ -32,14 +35,16 @@ typedef struct fmt_spec
                                              apostrophe */
         fmt_bool alternate:1;           /**< Alternate form, set by hash */
     } flags;
-    int width;                          /**< A numeric width, or a
+    uint32_t width;                     /**< A numeric width, or a
                                              @c FMT_VALUE_OUT_OF_LINE if it is
                                              provided as a separate parameter */
-    int precision;                      /**< A numeric precision, or a
+    uint32_t precision;                 /**< A numeric precision, or a
                                              @c FMT_VALUE_OUT_OF_LINE if it is
                                              provided as a separate parameter */
-    fmt_spec_len len;                   /**< Length specifier */
-    fmt_spec_type type;                 /**< Type specifier */
+    uint32_t len;                       /**< Length specifier belonging to
+                                             @p fmt_spec_len type */
+    uint32_t type;                      /**< Type specifier belonging to
+                                             @p fmt_spec_type type */
 } fmt_spec;
 
 #endif
