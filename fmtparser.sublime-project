@@ -26,6 +26,13 @@
             "file_regex": "^[.\\\\/]*([a-z]?:?[\\w.\\\\/]+)[(:]([0-9]+)[,:]?([0-9]+)?[)]?:(.*)$",
         },
         {
+            "name": "fmt parser build & run unit tests",
+            "cmd": ["./tools/make.sh --test && ./build/unittest/fmtreader_test"],
+            "shell": true,
+            "working_dir": "${project_path:${folder}}",
+            "file_regex": "^[.\\\\/]*([a-z]?:?[\\w.\\\\/]+)[(:]([0-9]+)[,:]?([0-9]+)?[)]?:(.*)$",
+        },
+        {
             "name": "fmtparser build for Win32",
             "cmd": ["./tools/make.sh --test --win32"],
             "shell": true,
