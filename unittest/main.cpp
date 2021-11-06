@@ -164,6 +164,38 @@ TEST(Masks, valthousandsd)
     ASSERT_EQ(fmt_init_read(&tmp, &spec), FMT_EEOL);
 }
 
+TEST(Masks, valleftG)
+{
+    const char *str = "%-G";
+    fmt_spec    spec;
+    fmt_status  status;
+    const char *tmp = str;
+
+    ASSERT_EQ(fmt_init_read(&tmp, &spec), FMT_EOK);
+    EXPECT_PATTERN();
+    EXPECT_STR("%-G");
+    EXPECT_TYPE(G);
+    EXPECT_FLAGS(left_align);
+
+    ASSERT_EQ(fmt_init_read(&tmp, &spec), FMT_EEOL);
+}
+
+TEST(Masks, valplusA)
+{
+    const char *str = "%+A";
+    fmt_spec    spec;
+    fmt_status  status;
+    const char *tmp = str;
+
+    ASSERT_EQ(fmt_init_read(&tmp, &spec), FMT_EOK);
+    EXPECT_PATTERN();
+    EXPECT_STR("%+A");
+    EXPECT_TYPE(A);
+    EXPECT_FLAGS(prepend_plus);
+
+    ASSERT_EQ(fmt_init_read(&tmp, &spec), FMT_EEOL);
+}
+
 int
 main(int argc, char **argv)
 {
