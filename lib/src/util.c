@@ -3,9 +3,9 @@
  * @brief fmtparser utility API implementation
  * @author Maxim Menshikov (maxim@menshikov.org)
  */
+#include <inttypes.h>
 #include "fmt_parser.h"
 #include "fmt_util.h"
-#include <inttypes.h>
 
 /* See the description in fmt_util.h */
 const char *
@@ -13,11 +13,11 @@ fmt_spec_len2str(fmt_spec_len len)
 {
     switch (len)
     {
-#define FMT_SPEC_LEN_VALUE(__name)                                          \
-        case (FMT_SPEC_LEN_ ## __name):                                     \
-        {                                                                   \
-            return #__name;                                                 \
-        }
+#define FMT_SPEC_LEN_VALUE(__name) \
+    case (FMT_SPEC_LEN_##__name):  \
+    {                              \
+        return #__name;            \
+    }
 
 #include "fmt_vals.def"
 
@@ -34,11 +34,11 @@ fmt_spec_type2str(fmt_spec_type type)
 {
     switch (type)
     {
-#define FMT_SPEC_TYPE_VALUE(__name)                                         \
-        case (FMT_SPEC_TYPE_ ## __name):                                    \
-        {                                                                   \
-            return #__name;                                                 \
-        }
+#define FMT_SPEC_TYPE_VALUE(__name) \
+    case (FMT_SPEC_TYPE_##__name):  \
+    {                               \
+        return #__name;             \
+    }
 
 #include "fmt_vals.def"
 
@@ -71,22 +71,22 @@ print_str_from_to(const fmt_char *start, const fmt_char *end, FILE *f)
 fmt_status
 fmt_spec_print(fmt_spec *spec, FILE *f)
 {
-    int         retval;
-    fmt_bool    write_one = FMT_FALSE;
+    int      retval;
+    fmt_bool write_one = FMT_FALSE;
 
-#define TRY_PRINTF(...)                                                     \
-    {                                                                       \
-        if (write_one)                                                      \
-            fprintf(f, ", ");                                               \
-        retval = fprintf(f, __VA_ARGS__);                                   \
-        if (retval < 0)                                                     \
-        {                                                                   \
-            break;                                                          \
-        }                                                                   \
-        else                                                                \
-        {                                                                   \
-            write_one = FMT_TRUE;                                           \
-        }                                                                   \
+#define TRY_PRINTF(...)                   \
+    {                                     \
+        if (write_one)                    \
+            fprintf(f, ", ");             \
+        retval = fprintf(f, __VA_ARGS__); \
+        if (retval < 0)                   \
+        {                                 \
+            break;                        \
+        }                                 \
+        else                              \
+        {                                 \
+            write_one = FMT_TRUE;         \
+        }                                 \
     }
 
     if (spec == NULL || f == NULL)
