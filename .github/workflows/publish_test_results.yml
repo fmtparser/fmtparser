@@ -1,7 +1,7 @@
 name: Publish test results
 on:
   workflow_run:
-    workflows: ['test']
+    workflows: ["Unit Testing"]
     types:
       - completed
 jobs:
