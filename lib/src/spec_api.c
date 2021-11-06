@@ -42,6 +42,20 @@ fmt_str_free(char **str_ptr)
 }
 
 /* See the description in fmt_spec_api.h */
+int32_t
+fmt_spec_get_start_position(fmt_spec *spec, fmt_char **str)
+{
+   return spec->str_start - (*str);
+}
+
+/* See the description in fmt_spec_api.h */
+int32_t
+fmt_spec_get_end_position(fmt_spec *spec, fmt_char **str)
+{
+   return spec->str_end - (*str);
+}
+
+/* See the description in fmt_spec_api.h */
 uint32_t
 fmt_spec_get_kind(fmt_spec *spec)
 {
