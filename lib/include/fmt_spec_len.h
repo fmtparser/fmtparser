@@ -6,6 +6,12 @@
 #ifndef FMT_SPEC_LEN_H
 #define FMT_SPEC_LEN_H
 
+/**
+ * @addtogroup fmt_spec_len Length specifier
+ * @ingroup fmt_spec_fields
+ * Length of a typed parameter
+ * @{
+ */
 /** Specifier lengths */
 typedef enum fmt_spec_len
 {
@@ -13,5 +19,9 @@ typedef enum fmt_spec_len
 #define FMT_SPEC_LEN_VALUE(__name) FMT_SPEC_LEN_##__name,
 #include "fmt_vals.def"
 } fmt_spec_len;
+
+/**
+ * @}
+ */
 
 #endif
