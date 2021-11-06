@@ -10,6 +10,8 @@ Fmt Parser library
     example
     group_fmt_parser
     group_fmt_util
+    group_fmt_spec
+    group_fmt_spec_api
 
 .. toctree::
     :hidden:
