@@ -16,9 +16,9 @@ extern "C"
 #endif
 
 /**
- * @addtogroup fmt_spec_api Parser API
+ * @addtogroup fmt_spec_api Specifier API
  * @ingroup fmt_spec
- * Main functions to parse specifiers from the string.
+ * Helper functions for accessing specifiers from other languages
  * @{
  */
 
