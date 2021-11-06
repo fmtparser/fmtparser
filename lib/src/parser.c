@@ -14,7 +14,7 @@
 static fmt_status
 fmt_read_parameter(const char **fmt, fmt_spec *spec)
 {
-    int num = 0;
+    uint32_t    num = 0;
     const char *old_fmt = *fmt;
 
     while (**fmt)
@@ -48,7 +48,7 @@ fmt_read_parameter(const char **fmt, fmt_spec *spec)
 static fmt_status
 fmt_read_flags(const char **fmt, fmt_spec *spec)
 {
-    int      num = 0;
+    uint32_t num = 0;
     fmt_bool found = FMT_FALSE;
 
     while (**fmt)
@@ -103,7 +103,7 @@ fmt_read_flags(const char **fmt, fmt_spec *spec)
 static fmt_status
 fmt_read_width(const char **fmt, fmt_spec *spec)
 {
-    int      width = 0;
+    uint32_t width = 0;
     fmt_bool found = FMT_FALSE;
 
     while (**fmt)
@@ -141,7 +141,7 @@ fmt_read_width(const char **fmt, fmt_spec *spec)
 static fmt_status
 fmt_read_precision(const char **fmt, fmt_spec *spec)
 {
-    int precision = 0;
+    uint32_t precision = 0;
 
     if (**fmt != '.')
         return FMT_ESTATE;
@@ -178,7 +178,7 @@ fmt_read_precision(const char **fmt, fmt_spec *spec)
 static fmt_status
 fmt_read_length(const char **fmt, fmt_spec *spec)
 {
-    int width = 0;
+    uint32_t width = 0;
 
     while (**fmt)
     {
