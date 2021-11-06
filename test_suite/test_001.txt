@@ -1,1 +1,0 @@
-Hello, %157$02ld test %*s world!
