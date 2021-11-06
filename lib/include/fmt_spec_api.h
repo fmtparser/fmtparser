@@ -65,6 +65,28 @@ extern "C"
     extern void fmt_str_free(char **str_ptr);
 
     /**
+     * Get specifier's start position
+     *
+     * @param      spec  The specifier
+     * @param      str   Original string that was originally passed to the first
+     *                   @p fmt_read_one().
+     *
+     * @return     Position within @p str string
+     */
+    extern int32_t fmt_spec_get_start_position(fmt_spec *spec, fmt_char **str);
+
+    /**
+     * Get specifier's end position
+     *
+     * @param      spec  The specifier
+     * @param      str   Original string that was originally passed to the first
+     *                   @p fmt_read_one().
+     *
+     * @return     End position within @p str string
+     */
+    extern int32_t fmt_spec_get_end_position(fmt_spec *spec, fmt_char **str);
+
+    /**
      * Get kind of a specifier
      *
      * @param      spec  The specifier
