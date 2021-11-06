@@ -12,20 +12,20 @@
 
 /* Read parameter value */
 static fmt_status
-fmt_read_parameter(const char **fmt, fmt_spec *spec)
+fmt_read_parameter(const fmt_char **fmt, fmt_spec *spec)
 {
-    uint32_t    num = 0;
-    const char *old_fmt = *fmt;
+    uint32_t        num = 0;
+    const fmt_char *old_fmt = *fmt;
 
     while (**fmt)
     {
-        const char c = **fmt;
+        const fmt_char c = **fmt;
 
-        if (c >= '0' && c <= '9')
+        if (c >= FMT_CHAR_CONV('0') && c <= FMT_CHAR_CONV('9'))
         {
-            num = num * 10 + (c - '0');
+            num = num * 10 + (c - FMT_CHAR_CONV('0'));
         }
-        else if (c == '$')
+        else if (c == FMT_CHAR_CONV('$'))
         {
             /* The last symbol in series - ending it gracefully */
             spec->parameter = num;
@@ -58,27 +58,27 @@ fmt_read_flags(const char **fmt, fmt_spec *spec)
 
         switch (c)
         {
-            case '-':
+            case FMT_CHAR_CONV('-'):
                 spec->flags.left_align = FMT_TRUE;
                 found = FMT_TRUE;
                 break;
-            case '+':
+            case FMT_CHAR_CONV('+'):
                 spec->flags.prepend_plus = 1;
                 found = FMT_TRUE;
                 break;
-            case ' ':
+            case FMT_CHAR_CONV(' '):
                 spec->flags.prepend_space = 1;
                 found = FMT_TRUE;
                 break;
-            case '0':
+            case FMT_CHAR_CONV('0'):
                 spec->flags.prepend_zero = 1;
                 found = FMT_TRUE;
                 break;
-            case '\'':
+            case FMT_CHAR_CONV('\''):
                 spec->flags.thousands_grouping = 1;
                 found = FMT_TRUE;
                 break;
-            case '#':
+            case FMT_CHAR_CONV('#'):
                 spec->flags.alternate = 1;
                 found = FMT_TRUE;
                 break;
@@ -101,21 +101,21 @@ fmt_read_flags(const char **fmt, fmt_spec *spec)
 
 /* Read width */
 static fmt_status
-fmt_read_width(const char **fmt, fmt_spec *spec)
+fmt_read_width(const fmt_char **fmt, fmt_spec *spec)
 {
     uint32_t width = 0;
     fmt_bool found = FMT_FALSE;
 
     while (**fmt)
     {
-        const char c = **fmt;
+        const fmt_char c = **fmt;
 
-        if (c >= '0' && c <= '9')
+        if (c >= FMT_CHAR_CONV('0') && c <= FMT_CHAR_CONV('9'))
         {
-            width = width * 10 + (c - '0');
+            width = width * 10 + (c - FMT_CHAR_CONV('0'));
             found = FMT_TRUE;
         }
-        else if (c == '*')
+        else if (c == FMT_CHAR_CONV('*'))
         {
             width = FMT_VALUE_OUT_OF_LINE;
             found = FMT_TRUE;
@@ -139,11 +139,11 @@ fmt_read_width(const char **fmt, fmt_spec *spec)
 
 /* Read precision */
 static fmt_status
-fmt_read_precision(const char **fmt, fmt_spec *spec)
+fmt_read_precision(const fmt_char **fmt, fmt_spec *spec)
 {
     uint32_t precision = 0;
 
-    if (**fmt != '.')
+    if (**fmt != FMT_CHAR_CONV('.'))
         return FMT_ESTATE;
 
     INC_FMT();
@@ -152,11 +152,11 @@ fmt_read_precision(const char **fmt, fmt_spec *spec)
     {
         const char c = **fmt;
 
-        if (c >= '0' && c <= '9')
+        if (c >= FMT_CHAR_CONV('0') && c <= FMT_CHAR_CONV('9'))
         {
-            precision = precision * 10 + (c - '0');
+            precision = precision * 10 + (c - FMT_CHAR_CONV('0'));
         }
-        else if (c == '*')
+        else if (c == FMT_CHAR_CONV('*'))
         {
             precision = FMT_VALUE_OUT_OF_LINE;
             INC_FMT();
@@ -176,19 +176,19 @@ fmt_read_precision(const char **fmt, fmt_spec *spec)
 
 /* Read length */
 static fmt_status
-fmt_read_length(const char **fmt, fmt_spec *spec)
+fmt_read_length(const fmt_char **fmt, fmt_spec *spec)
 {
     uint32_t width = 0;
 
     while (**fmt)
     {
-        char     c = **fmt;
-        fmt_bool stop = FMT_FALSE;
+        const fmt_char  c = **fmt;
+        fmt_bool        stop = FMT_FALSE;
 
         switch (c)
         {
 #define CASE_DOUBLE(_char, _projected_type1, _projected_type2)              \
-            case (_char):                                                   \
+            case (FMT_CHAR_CONV(_char)):                                    \
             {                                                               \
                 if (spec->len == (_projected_type1))                        \
                 {                                                           \
@@ -205,7 +205,7 @@ fmt_read_length(const char **fmt, fmt_spec *spec)
                 break;                                                      \
             }
 #define CASE_SINGLE(_char, _projected_type1)                                \
-            case (_char):                                                   \
+            case (FMT_CHAR_CONV(_char)):                                    \
             {                                                               \
                 if (spec->len == FMT_SPEC_LEN_UNKNOWN)                      \
                 {                                                           \
@@ -244,17 +244,17 @@ fmt_read_length(const char **fmt, fmt_spec *spec)
 
 /* Read type */
 static fmt_status
-fmt_read_type(const char **fmt, fmt_spec *spec)
+fmt_read_type(const fmt_char **fmt, fmt_spec *spec)
 {
     while (**fmt)
     {
-        const char  c = **fmt;
-        fmt_bool    stop = FMT_FALSE;
+        const fmt_char  c = **fmt;
+        fmt_bool        stop = FMT_FALSE;
 
         switch (c)
         {
-#define CASE_SINGULAR(_char, _projected_type) \
-            case (_char):                                                   \
+#define CASE_SINGULAR(_char, _projected_type)                               \
+            case (FMT_CHAR_CONV(_char)):                                    \
             {                                                               \
                 if (spec->type == FMT_SPEC_TYPE_UNKNOWN)                    \
                 {                                                           \
@@ -305,16 +305,15 @@ fmt_read_type(const char **fmt, fmt_spec *spec)
 
 /* See the description in fmt_parser.h */
 fmt_status
-fmt_read_one(const char **fmt, fmt_spec *spec)
+fmt_read_one(const fmt_char **fmt, fmt_spec *spec)
 {
     if (fmt == NULL || spec == NULL)
         return FMT_EINVAL;
 
-#ifdef FMT_DEBUG
-    DBG("Start with %s", *fmt);
-#endif
+    if (sizeof(fmt_char) == sizeof(char))
+        DBG("Start with %s", *fmt);
 
-    if (**fmt == '\0')
+    if (**fmt == FMT_CHAR_CONV('\0'))
         return FMT_EEOL;
 
     if (**fmt == FMT_START_SYMBOL)
@@ -337,11 +336,13 @@ fmt_read_one(const char **fmt, fmt_spec *spec)
 #define FMT_READ(_func_call)                                                \
             do {                                                            \
                 fmt_status status;                                          \
-                const char **old_fmt = fmt;                                 \
+                const fmt_char **old_fmt = fmt;                             \
                                                                             \
-                DBG("before %s: %s", #_func_call, *fmt);                    \
+                if (sizeof(fmt_char) == sizeof(char))                       \
+                    DBG("before %s: %s", #_func_call, *fmt);                \
                 status = _func_call(fmt, spec);                             \
-                DBG("after %s: %s", #_func_call, *fmt);                     \
+                if (sizeof(fmt_char) == sizeof(char))                       \
+                    DBG("after %s: %s", #_func_call, *fmt);                 \
                 if (status == FMT_ESTATE)                                   \
                 {                                                           \
                     DBG("%s is missing", #_func_call);                      \
@@ -349,7 +350,8 @@ fmt_read_one(const char **fmt, fmt_spec *spec)
                 }                                                           \
                 else if (status != FMT_EOK)                                 \
                 {                                                           \
-                    DBG("%s: Error at %s", #_func_call, *fmt);              \
+                    if (sizeof(fmt_char) == sizeof(char))                   \
+                        DBG("%s: Error at %s", #_func_call, *fmt);          \
                     return status;                                          \
                 }                                                           \
                 else                                                        \

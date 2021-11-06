@@ -13,16 +13,25 @@
 #include "fmt_spec_len.h"
 #include "fmt_spec_type.h"
 
-#define FMT_VALUE_OUT_OF_LINE (-1)
+#ifndef FMT_CHAR_TYPE
+#define FMT_CHAR_TYPE char
+#endif
+#ifndef FMT_CHAR_CONV
+#define FMT_CHAR_CONV(__chr) (__chr)
+#endif
+
+#define FMT_VALUE_OUT_OF_LINE       (-1)
+
+typedef FMT_CHAR_TYPE fmt_char;
 
 /** Format specifier segment. It may mean a string or a %-something mask */
 typedef struct fmt_spec
 {
     uint32_t    kind;                   /**< Specifier kind belonging to
                                              @p fmt_spec_kind type */
-    const char *str_start;              /**< Pointer to start position in
+    const fmt_char *str_start;          /**< Pointer to start position in
                                              format string */
-    const char *str_end;                /**< Pointer to end position in
+    const fmt_char *str_end;            /**< Pointer to end position in
                                              format string */
     uint32_t    parameter;              /**< Parameter number */
     struct
