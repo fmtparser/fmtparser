@@ -146,6 +146,8 @@ fmt_read_precision(const char **fmt, fmt_spec *spec)
     if (**fmt != '.')
         return FMT_ESTATE;
 
+    INC_FMT();
+
     while (**fmt)
     {
         const char c = **fmt;
