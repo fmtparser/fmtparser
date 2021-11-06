@@ -15,24 +15,25 @@ extern "C"
 {
 #endif
 
-/**
- * @addtogroup fmt_spec_api Specifier API
- * @ingroup fmt_spec
- * Helper functions for accessing specifiers from other languages
- * @{
- */
+    /**
+     * @addtogroup fmt_spec_api Specifier API
+     * @ingroup fmt_spec
+     * Helper functions for accessing specifiers from other languages
+     * @{
+     */
 
     /**
      * Format specifier flag
      */
-    typedef enum fmt_flag {
-        FMT_FLAG_FIRST = 0,         /**< The first flag in enumeration */
-        FMT_FLAG_LEFT_ALIGN = 0,    /**< Left align flag */
-        FMT_FLAG_PREPEND_PLUS,      /**< Prepend plus flag */
-        FMT_FLAG_PREPEND_SPACE,     /**< Prepend space flag */
-        FMT_FLAG_PREPEND_ZERO,      /**< Prepend zero flag */
-        FMT_FLAG_THOUSANDS_GROUPING,/**< Enable thousands grouping */
-        FMT_FLAG_ALTERNATE,         /**< Enable alternate form */
+    typedef enum fmt_flag
+    {
+        FMT_FLAG_FIRST = 0, /**< The first flag in enumeration */
+        FMT_FLAG_LEFT_ALIGN = 0, /**< Left align flag */
+        FMT_FLAG_PREPEND_PLUS, /**< Prepend plus flag */
+        FMT_FLAG_PREPEND_SPACE, /**< Prepend space flag */
+        FMT_FLAG_PREPEND_ZERO, /**< Prepend zero flag */
+        FMT_FLAG_THOUSANDS_GROUPING, /**< Enable thousands grouping */
+        FMT_FLAG_ALTERNATE, /**< Enable alternate form */
         FMT_FLAG_LAST = FMT_FLAG_ALTERNATE, /**< Last flag */
     } fmt_flag;
 
@@ -164,7 +165,7 @@ extern "C"
      */
     extern fmt_bool fmt_spec_get_flag(fmt_spec *spec, fmt_flag flag);
 
-/** @} */
+    /** @} */
 
 #ifdef __cplusplus
 }

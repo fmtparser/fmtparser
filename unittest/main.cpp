@@ -289,7 +289,7 @@ fmt_spec_set_flag(fmt_spec *spec, fmt_flag flag, fmt_bool val)
 
 TEST(spec_api, spec)
 {
-    char     *str = (char *)"hello world!";
+    char *    str = (char *)"hello world!";
     fmt_spec *spec = fmt_spec_alloc();
 
     spec->str_start = str + 5;

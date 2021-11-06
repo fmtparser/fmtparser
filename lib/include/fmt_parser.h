@@ -15,11 +15,11 @@ extern "C"
 {
 #endif
 
-/**
- *  @addtogroup fmt_parser Parser API
- *  Main functions to parse specifiers from the string.
- *  @{
- */
+    /**
+     *  @addtogroup fmt_parser Parser API
+     *  Main functions to parse specifiers from the string.
+     *  @{
+     */
 
     /**
      * Initialize format specifier
@@ -47,7 +47,7 @@ extern "C"
      */
     extern fmt_bool fmt_read_is_ok(fmt_status status);
 
-/** @} */
+    /** @} */
 
 #ifdef __cplusplus
 }
