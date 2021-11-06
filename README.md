@@ -1,5 +1,8 @@
 # fmtparser
 
+![Build](https://github.com/fmtparser/fmtparser/actions/workflows/build.yml/badge.svg)
+![Test](https://github.com/fmtparser/fmtparser/actions/workflows/test.yml/badge.svg)
+
 A trivial printf/scanf format parser, which can be useful when analyzing format strings or making compilers.
 
 ## Building
