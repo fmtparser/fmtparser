@@ -117,7 +117,7 @@ fmt_read_width(const char **fmt, fmt_spec *spec)
         }
         else if (c == '*')
         {
-            width = -1;
+            width = FMT_VALUE_OUT_OF_LINE;
             found = FMT_TRUE;
             break;
         }
@@ -132,6 +132,40 @@ fmt_read_width(const char **fmt, fmt_spec *spec)
         return FMT_ESTATE;
 
     spec->width = width;
+
+    return FMT_EOK;
+}
+
+/* Read precision */
+static fmt_status
+fmt_read_precision(const char **fmt, fmt_spec *spec)
+{
+    int precision = 0;
+
+    if (**fmt != '.')
+        return FMT_ESTATE;
+
+    while (**fmt)
+    {
+        const char c = **fmt;
+
+        if (c >= '0' && c <= '9')
+        {
+            precision = precision * 10 + (c - '0');
+        }
+        else if (c == '*')
+        {
+            precision = FMT_VALUE_OUT_OF_LINE;
+            break;
+        }
+        else
+        {
+            break;
+        }
+        INC_FMT();
+    }
+
+    spec->precision = precision;
 
     return FMT_EOK;
 }
@@ -323,6 +357,7 @@ fmt_read_one(const char **fmt, fmt_spec *spec)
             FMT_READ(fmt_read_parameter);
             FMT_READ(fmt_read_flags);
             FMT_READ(fmt_read_width);
+            FMT_READ(fmt_read_precision);
             FMT_READ(fmt_read_length);
             FMT_READ(fmt_read_type);
 #undef FMT_READ
