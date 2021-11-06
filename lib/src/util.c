@@ -151,7 +151,10 @@ fmt_spec_print(fmt_spec *spec, FILE *f)
 			{
 				TRY_PRINTF("type %s", fmt_spec_type2str(spec->type));
 			}
-			TRY_PRINTF("text: ");
+			if (sizeof(fmt_char) == sizeof(char))
+			{
+				TRY_PRINTF("text: ");
+			}
 			break;
 		}
 	}
