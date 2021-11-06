@@ -3,6 +3,8 @@
 #include "gtest/gtest.h"
 #include "wrap.hpp"
 
+#ifdef FMT_CHAR_TYPE_DEFAULT
+
 TEST(Masks, str_ld_s)
 {
     const char *str = "Hello, %157$02ld test %*s world!";
@@ -250,6 +252,8 @@ TEST(encoding, utf8)
 
     ASSERT_EQ(fmt_init_read(&tmp, &spec), FMT_EEOL);
 }
+
+#endif
 
 int
 main(int argc, char **argv)
