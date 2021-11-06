@@ -3,12 +3,12 @@
  * @brief fmtparser main API implementation
  * @author Maxim Menshikov (maxim@menshikov.org)
  */
-#include "fmt_parser.h"
-#include <string.h>
 #include <stdio.h>
+#include <string.h>
+#include "debug_internal.h"
+#include "fmt_parser.h"
 #include "parser_internal.h"
 #include "util_internal.h"
-#include "debug_internal.h"
 
 /* Read parameter value */
 static fmt_status
@@ -53,8 +53,8 @@ fmt_read_flags(const fmt_char **fmt, fmt_spec *spec)
 
     while (**fmt)
     {
-        const fmt_char  c = **fmt;
-        fmt_bool        stop = FMT_FALSE;
+        const fmt_char c = **fmt;
+        fmt_bool       stop = FMT_FALSE;
 
         switch (c)
         {
@@ -182,41 +182,41 @@ fmt_read_length(const fmt_char **fmt, fmt_spec *spec)
 
     while (**fmt)
     {
-        const fmt_char  c = **fmt;
-        fmt_bool        stop = FMT_FALSE;
+        const fmt_char c = **fmt;
+        fmt_bool       stop = FMT_FALSE;
 
         switch (c)
         {
-#define CASE_DOUBLE(_char, _projected_type1, _projected_type2)              \
-            case (FMT_CHAR_CONV(_char)):                                    \
-            {                                                               \
-                if (spec->len == (_projected_type1))                        \
-                {                                                           \
-                    spec->len = (_projected_type2);                         \
-                }                                                           \
-                else if (spec->len == FMT_SPEC_LEN_UNKNOWN)                 \
-                {                                                           \
-                    spec->len = (_projected_type1);                         \
-                }                                                           \
-                else                                                        \
-                {                                                           \
-                    stop = FMT_TRUE;                                        \
-                }                                                           \
-                break;                                                      \
-            }
-#define CASE_SINGLE(_char, _projected_type1)                                \
-            case (FMT_CHAR_CONV(_char)):                                    \
-            {                                                               \
-                if (spec->len == FMT_SPEC_LEN_UNKNOWN)                      \
-                {                                                           \
-                    spec->len = (_projected_type1);                         \
-                }                                                           \
-                else                                                        \
-                {                                                           \
-                    stop = FMT_TRUE;                                        \
-                }                                                           \
-                break;                                                      \
-            }
+#define CASE_DOUBLE(_char, _projected_type1, _projected_type2) \
+    case (FMT_CHAR_CONV(_char)):                               \
+    {                                                          \
+        if (spec->len == (_projected_type1))                   \
+        {                                                      \
+            spec->len = (_projected_type2);                    \
+        }                                                      \
+        else if (spec->len == FMT_SPEC_LEN_UNKNOWN)            \
+        {                                                      \
+            spec->len = (_projected_type1);                    \
+        }                                                      \
+        else                                                   \
+        {                                                      \
+            stop = FMT_TRUE;                                   \
+        }                                                      \
+        break;                                                 \
+    }
+#define CASE_SINGLE(_char, _projected_type1)   \
+    case (FMT_CHAR_CONV(_char)):               \
+    {                                          \
+        if (spec->len == FMT_SPEC_LEN_UNKNOWN) \
+        {                                      \
+            spec->len = (_projected_type1);    \
+        }                                      \
+        else                                   \
+        {                                      \
+            stop = FMT_TRUE;                   \
+        }                                      \
+        break;                                 \
+    }
 
             CASE_DOUBLE('h', FMT_SPEC_LEN_h, FMT_SPEC_LEN_hh);
             CASE_DOUBLE('l', FMT_SPEC_LEN_l, FMT_SPEC_LEN_ll);
@@ -248,24 +248,24 @@ fmt_read_type(const fmt_char **fmt, fmt_spec *spec)
 {
     while (**fmt)
     {
-        const fmt_char  c = **fmt;
-        fmt_bool        stop = FMT_FALSE;
+        const fmt_char c = **fmt;
+        fmt_bool       stop = FMT_FALSE;
 
         switch (c)
         {
-#define CASE_SINGULAR(_char, _projected_type)                               \
-            case (FMT_CHAR_CONV(_char)):                                    \
-            {                                                               \
-                if (spec->type == FMT_SPEC_TYPE_UNKNOWN)                    \
-                {                                                           \
-                    spec->type = (_projected_type);                         \
-                }                                                           \
-                else                                                        \
-                {                                                           \
-                    stop = FMT_TRUE;                                        \
-                }                                                           \
-                break;                                                      \
-            }
+#define CASE_SINGULAR(_char, _projected_type)    \
+    case (FMT_CHAR_CONV(_char)):                 \
+    {                                            \
+        if (spec->type == FMT_SPEC_TYPE_UNKNOWN) \
+        {                                        \
+            spec->type = (_projected_type);      \
+        }                                        \
+        else                                     \
+        {                                        \
+            stop = FMT_TRUE;                     \
+        }                                        \
+        break;                                   \
+    }
             CASE_SINGULAR('%', FMT_SPEC_TYPE_PERCENT);
             CASE_SINGULAR('d', FMT_SPEC_TYPE_d);
             CASE_SINGULAR('i', FMT_SPEC_TYPE_i);
@@ -333,32 +333,33 @@ fmt_read_one(const fmt_char **fmt, fmt_spec *spec)
     {
         case FMT_SPEC_KIND_PATTERN:
         {
-#define FMT_READ(_func_call)                                                \
-            do {                                                            \
-                fmt_status status;                                          \
-                const fmt_char **old_fmt = fmt;                             \
-                                                                            \
-                if (sizeof(fmt_char) == sizeof(char))                       \
-                    DBG("before %s: %s", #_func_call, (char *)*fmt);        \
-                status = _func_call(fmt, spec);                             \
-                if (sizeof(fmt_char) == sizeof(char))                       \
-                    DBG("after %s: %s", #_func_call, (char *)*fmt);         \
-                if (status == FMT_ESTATE)                                   \
-                {                                                           \
-                    DBG("%s is missing", #_func_call);                      \
-                    fmt = old_fmt;                                          \
-                }                                                           \
-                else if (status != FMT_EOK)                                 \
-                {                                                           \
-                    if (sizeof(fmt_char) == sizeof(char))                   \
-                        DBG("%s: Error at %s", #_func_call, (char *)*fmt);  \
-                    return status;                                          \
-                }                                                           \
-                else                                                        \
-                {                                                           \
-                    DBG("%s: OK", #_func_call);                             \
-                }                                                           \
-            } while (0)
+#define FMT_READ(_func_call)                                       \
+    do                                                             \
+    {                                                              \
+        fmt_status       status;                                   \
+        const fmt_char **old_fmt = fmt;                            \
+                                                                   \
+        if (sizeof(fmt_char) == sizeof(char))                      \
+            DBG("before %s: %s", #_func_call, (char *)*fmt);       \
+        status = _func_call(fmt, spec);                            \
+        if (sizeof(fmt_char) == sizeof(char))                      \
+            DBG("after %s: %s", #_func_call, (char *)*fmt);        \
+        if (status == FMT_ESTATE)                                  \
+        {                                                          \
+            DBG("%s is missing", #_func_call);                     \
+            fmt = old_fmt;                                         \
+        }                                                          \
+        else if (status != FMT_EOK)                                \
+        {                                                          \
+            if (sizeof(fmt_char) == sizeof(char))                  \
+                DBG("%s: Error at %s", #_func_call, (char *)*fmt); \
+            return status;                                         \
+        }                                                          \
+        else                                                       \
+        {                                                          \
+            DBG("%s: OK", #_func_call);                            \
+        }                                                          \
+    } while (0)
 
             FMT_READ(fmt_read_parameter);
             FMT_READ(fmt_read_flags);
