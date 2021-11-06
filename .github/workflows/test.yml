@@ -15,10 +15,10 @@ jobs:
           name: test-binaries
           path: test_binaries
       - run: mkdir -p test-results
+      - run: chmod +x ./test_binaries/fmtreader_test
       - run: ./test_binaries/fmtreader_test --gtest_output=xml:test-results/test-linux.xml
       - uses: actions/upload-artifact@v2
         if: success()
         with:
           name: test-binaries
           path: test-results/*.xml
-
