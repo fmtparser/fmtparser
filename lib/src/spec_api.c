@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 #include "fmt_parser.h"
 #include "fmt_bool.h"
 #include "fmt_spec.h"
@@ -19,6 +20,25 @@ void
 fmt_spec_free(fmt_spec *spec)
 {
    free(spec);
+}
+
+/* See the description in fmt_spec_api.h */
+char **
+fmt_str_alloc(char *str)
+{
+   char **ptr = malloc(sizeof(char **));
+
+   *ptr = strdup(str);
+   return ptr;
+}
+
+/* See the description in fmt_spec_api.h */
+void
+fmt_str_free(char **str_ptr)
+{
+   if (str_ptr != NULL)
+      free(*str_ptr);
+   free(str_ptr);
 }
 
 /* See the description in fmt_spec_api.h */

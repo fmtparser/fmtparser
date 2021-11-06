@@ -5,6 +5,7 @@ project(fmt_reader_main)
 option(CHAR_TYPE "Default char type" "char")
 option(ENABLE_STATIC "Enable static build" ON)
 option(ENABLE_TEST "Enable tests" OFF)
+option(ENABLE_SPEC_API "Enable specifier API" ON)
 
 add_subdirectory(lib)
 
