@@ -2,6 +2,9 @@
 #include "fmt_parser.h"
 #include "fmt_util.h"
 #include "wrap.hpp"
+#ifdef ENABLE_SPEC_API
+#include "fmt_spec_api.h"
+#endif
 
 #ifdef FMT_CHAR_TYPE_DEFAULT
 
@@ -252,6 +255,90 @@ TEST(encoding, utf8)
 
     ASSERT_EQ(fmt_init_read(&tmp, &spec), FMT_EEOL);
 }
+
+#ifdef ENABLE_SPEC_API
+
+static void
+fmt_spec_set_flag(fmt_spec *spec, fmt_flag flag, fmt_bool val)
+{
+    switch (flag)
+    {
+        case FMT_FLAG_LEFT_ALIGN:
+            spec->flags.left_align = val;
+            break;
+        case FMT_FLAG_PREPEND_PLUS:
+            spec->flags.prepend_plus = val;
+            break;
+        case FMT_FLAG_PREPEND_SPACE:
+            spec->flags.prepend_space = val;
+            break;
+        case FMT_FLAG_PREPEND_ZERO:
+            spec->flags.prepend_zero = val;
+            break;
+        case FMT_FLAG_THOUSANDS_GROUPING:
+            spec->flags.thousands_grouping = val;
+            break;
+        case FMT_FLAG_ALTERNATE:
+            spec->flags.alternate = val;
+            break;
+        default:
+            FAIL();
+            break;
+    }
+}
+
+TEST(spec_api, spec)
+{
+    char     *str = (char *)"hello world!";
+    fmt_spec *spec = fmt_spec_alloc();
+
+    spec->str_start = str + 5;
+    spec->str_end = str + 6;
+
+    ASSERT_EQ(fmt_spec_get_start_position(spec, &str), 5);
+    ASSERT_EQ(fmt_spec_get_end_position(spec, &str), 6);
+
+    spec->kind = FMT_SPEC_KIND_PATTERN;
+    ASSERT_EQ(fmt_spec_get_kind(spec), FMT_SPEC_KIND_PATTERN);
+
+    spec->parameter = 157;
+    ASSERT_EQ(fmt_spec_get_parameter(spec), 157);
+
+    spec->width = 356;
+    ASSERT_EQ(fmt_spec_get_width(spec), 356);
+
+    spec->precision = 467;
+    ASSERT_EQ(fmt_spec_get_precision(spec), 467);
+
+    spec->type = FMT_SPEC_TYPE_s;
+    ASSERT_EQ(fmt_spec_get_type(spec), FMT_SPEC_TYPE_s);
+
+    spec->flags.left_align = 0;
+    spec->flags.prepend_plus = 0;
+    spec->flags.prepend_space = 0;
+    spec->flags.prepend_zero = 0;
+    spec->flags.thousands_grouping = 0;
+    spec->flags.alternate = 0;
+    for (int i = FMT_FLAG_FIRST; i <= FMT_FLAG_LAST; ++i)
+    {
+        ASSERT_EQ(fmt_spec_get_flag(spec, (fmt_flag)i), FMT_FALSE);
+        fmt_spec_set_flag(spec, (fmt_flag)i, FMT_TRUE);
+        ASSERT_EQ(fmt_spec_get_flag(spec, (fmt_flag)i), FMT_TRUE);
+        fmt_spec_set_flag(spec, (fmt_flag)i, FMT_FALSE);
+    }
+
+
+    fmt_spec_free(spec);
+}
+
+TEST(spec_api, str)
+{
+    fmt_char **s = fmt_str_alloc((char *)"test");
+
+    ASSERT_EQ(strcmp(*s, "test"), 0);
+    fmt_str_free(s);
+}
+#endif
 
 #endif
 
