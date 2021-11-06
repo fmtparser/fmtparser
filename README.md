@@ -5,6 +5,8 @@
 
 A trivial printf/scanf format parser, which can be useful when analyzing format strings or making compilers.
 
+The tool is shipped as a static (or shared) library.
+
 ## Building
 The project is based on CMake, so use a typical CMake approach:
 
