@@ -228,6 +228,28 @@ TEST(Masks, valwidths)
     ASSERT_EQ(fmt_init_read(&tmp, &spec), FMT_EEOL);
 }
 
+TEST(encoding, utf8)
+{
+    uint8_t     str_u[] = { 0xd0, 0x9f, 0xd1, 0x80, 0xd0, 0xb8, 0xd0, 0xb2, 0xd0,
+                            0xb5, 0xd1, 0x82, 0x20, 0x25, 0x73, 0x20, 0xd0, 0xbc,
+                            0xd0, 0xb8, 0xd1, 0x80, '\0' };
+    fmt_spec    spec;
+    fmt_status  status;
+    const char *tmp = (const char *)str_u;
+
+    ASSERT_EQ(fmt_init_read(&tmp, &spec), FMT_EOK);
+    EXPECT_STRING();
+
+    ASSERT_EQ(fmt_init_read(&tmp, &spec), FMT_EOK);
+    EXPECT_PATTERN();
+    EXPECT_STR("%s");
+    EXPECT_TYPE(s);
+
+    ASSERT_EQ(fmt_init_read(&tmp, &spec), FMT_EOK);
+    EXPECT_STRING();
+
+    ASSERT_EQ(fmt_init_read(&tmp, &spec), FMT_EEOL);
+}
 
 int
 main(int argc, char **argv)
