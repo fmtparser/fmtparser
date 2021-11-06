@@ -311,7 +311,7 @@ fmt_read_one(const fmt_char **fmt, fmt_spec *spec)
         return FMT_EINVAL;
 
     if (sizeof(fmt_char) == sizeof(char))
-        DBG("Start with %s", *fmt);
+        DBG("Start with %s", (char *)*fmt);
 
     if (**fmt == FMT_CHAR_CONV('\0'))
         return FMT_EEOL;
@@ -339,10 +339,10 @@ fmt_read_one(const fmt_char **fmt, fmt_spec *spec)
                 const fmt_char **old_fmt = fmt;                             \
                                                                             \
                 if (sizeof(fmt_char) == sizeof(char))                       \
-                    DBG("before %s: %s", #_func_call, *fmt);                \
+                    DBG("before %s: %s", #_func_call, (char *)*fmt);        \
                 status = _func_call(fmt, spec);                             \
                 if (sizeof(fmt_char) == sizeof(char))                       \
-                    DBG("after %s: %s", #_func_call, *fmt);                 \
+                    DBG("after %s: %s", #_func_call, (char *)*fmt);         \
                 if (status == FMT_ESTATE)                                   \
                 {                                                           \
                     DBG("%s is missing", #_func_call);                      \
@@ -351,7 +351,7 @@ fmt_read_one(const fmt_char **fmt, fmt_spec *spec)
                 else if (status != FMT_EOK)                                 \
                 {                                                           \
                     if (sizeof(fmt_char) == sizeof(char))                   \
-                        DBG("%s: Error at %s", #_func_call, *fmt);          \
+                        DBG("%s: Error at %s", #_func_call, (char *)*fmt);  \
                     return status;                                          \
                 }                                                           \
                 else                                                        \

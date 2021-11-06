@@ -50,10 +50,15 @@ fmt_spec_type2str(fmt_spec_type type)
 }
 
 static void
-print_str_from_to(const char *start, const char *end, FILE *f)
+print_str_from_to(const fmt_char *start, const fmt_char *end, FILE *f)
 {
-	const char *ptr;
+	const fmt_char *ptr;
 
+	if (sizeof(fmt_char) != sizeof(char))
+	{
+		fprintf(f, "unsupported-char-type");
+		return;
+	}
 	fputc('\'', f);
 	for (ptr = start; ptr != end; ++ptr)
 	{
