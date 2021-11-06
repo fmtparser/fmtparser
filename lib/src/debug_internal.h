@@ -13,7 +13,7 @@
         fprintf(stderr, "%s: " __fmt "\n", __FUNCTION__, __x);              \
     } while (0)
 #else
-#define DBG(...)
+#define DBG(...) do { } while (0)
 #endif
 
 #endif
