@@ -14,14 +14,20 @@
 #include "fmt_spec_type.h"
 
 #ifndef FMT_CHAR_TYPE
+/** Externally-defined char type */
 #define FMT_CHAR_TYPE char
 #endif
+
 #ifndef FMT_CHAR_CONV
-#define FMT_CHAR_CONV(__chr) (__chr)
+/** Converter from regular char to used-defined type */
+#define FMT_CHAR_CONV(__chr) ((fmt_char)(__chr))
 #endif
 
 #define FMT_VALUE_OUT_OF_LINE       (-1)
 
+/**
+ * The default char type used in the parser
+ */
 typedef FMT_CHAR_TYPE fmt_char;
 
 /** Format specifier segment. It may mean a string or a %-something mask */
