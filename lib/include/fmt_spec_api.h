@@ -26,12 +26,14 @@ extern "C"
      * Format specifier flag
      */
     typedef enum fmt_flag {
+        FMT_FLAG_FIRST = 0,         /**< The first flag in enumeration */
         FMT_FLAG_LEFT_ALIGN = 0,    /**< Left align flag */
         FMT_FLAG_PREPEND_PLUS,      /**< Prepend plus flag */
         FMT_FLAG_PREPEND_SPACE,     /**< Prepend space flag */
         FMT_FLAG_PREPEND_ZERO,      /**< Prepend zero flag */
         FMT_FLAG_THOUSANDS_GROUPING,/**< Enable thousands grouping */
         FMT_FLAG_ALTERNATE,         /**< Enable alternate form */
+        FMT_FLAG_LAST = FMT_FLAG_ALTERNATE, /**< Last flag */
     } fmt_flag;
 
     /**
@@ -55,14 +57,14 @@ extern "C"
      *
      * @return     Newly allocated pointer to string
      */
-    extern char **fmt_str_alloc(char *str);
+    extern char **fmt_str_alloc(fmt_char *str);
 
     /**
      * Free string pointer allocated by @p fmt_str_alloc()
      *
      * @param      str_ptr  The string pointer
      */
-    extern void fmt_str_free(char **str_ptr);
+    extern void fmt_str_free(fmt_char **str_ptr);
 
     /**
      * Get specifier's start position

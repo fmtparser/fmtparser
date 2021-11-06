@@ -22,19 +22,50 @@ fmt_spec_free(fmt_spec *spec)
    free(spec);
 }
 
-/* See the description in fmt_spec_api.h */
-char **
-fmt_str_alloc(char *str)
+/* Get length of custom byte string */
+static uint32_t
+fmt_str_len(fmt_char *str)
 {
-   char **ptr = malloc(sizeof(char **));
+   fmt_char *orig = str;
 
-   *ptr = strdup(str);
+   while (*(str++) != FMT_CHAR_CONV('\0'))
+      ;
+
+   return str - orig;
+}
+
+/* See the description in fmt_spec_api.h */
+fmt_char **
+fmt_str_alloc(fmt_char *str)
+{
+   uint32_t    len;
+   fmt_char  **ptr;
+   fmt_char   *buf;
+
+   if (str == NULL)
+      return NULL;
+
+   len = fmt_str_len(str);
+   buf = malloc((len + 1) * sizeof(fmt_char));
+   if (buf == NULL)
+      return NULL;
+
+   ptr = malloc(sizeof(fmt_char **));
+   if (ptr == NULL)
+   {
+      free(buf);
+      return NULL;
+   }
+
+   memcpy(buf, str, len * sizeof(fmt_char));
+   buf[len] = FMT_CHAR_CONV('\0');
+   *ptr = buf;
    return ptr;
 }
 
 /* See the description in fmt_spec_api.h */
 void
-fmt_str_free(char **str_ptr)
+fmt_str_free(fmt_char **str_ptr)
 {
    if (str_ptr != NULL)
       free(*str_ptr);
