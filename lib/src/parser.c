@@ -119,6 +119,7 @@ fmt_read_width(const char **fmt, fmt_spec *spec)
         {
             width = FMT_VALUE_OUT_OF_LINE;
             found = FMT_TRUE;
+            INC_FMT();
             break;
         }
         else
@@ -156,6 +157,7 @@ fmt_read_precision(const char **fmt, fmt_spec *spec)
         else if (c == '*')
         {
             precision = FMT_VALUE_OUT_OF_LINE;
+            INC_FMT();
             break;
         }
         else
