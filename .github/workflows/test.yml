@@ -13,8 +13,9 @@ jobs:
         with:
           workflow: build.yml
           name: test-binaries
+          path: test_binaries
       - run: mkdir -p test-results
-      - run: ./test-binaries/fmtreader_test --gtest_output=xml:test-results/test-linux.xml
+      - run: ./test_binaries/fmtreader_test --gtest_output=xml:test-results/test-linux.xml
       - uses: actions/upload-artifact@v2
         if: success()
         with:
