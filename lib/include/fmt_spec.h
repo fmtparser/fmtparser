@@ -32,7 +32,10 @@
 #endif
 
 /** The value is defined out of line as a separate parameter */
-#define FMT_VALUE_OUT_OF_LINE (-1)
+#define FMT_VALUE_OUT_OF_LINE (0xFFFFFFFFU)
+
+/** The value is defined out of line as a separate parameter */
+#define FMT_VALUE_NOT_DEFINED (0xFFFFFFFEU)
 
 /**
  * The default char type used in the parser

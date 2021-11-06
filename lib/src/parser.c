@@ -393,7 +393,9 @@ void
 fmt_spec_init(fmt_spec *spec)
 {
     memset(spec, 0, sizeof(fmt_spec));
-    spec->parameter = -1;
+    spec->parameter = FMT_VALUE_NOT_DEFINED;
+    spec->width = FMT_VALUE_NOT_DEFINED;
+    spec->precision = FMT_VALUE_NOT_DEFINED;
 }
 
 /* See the description in fmt_parser.h */
