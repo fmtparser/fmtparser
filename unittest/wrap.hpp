@@ -12,7 +12,7 @@ typedef enum {
 } flags;
 
 static inline fmt_status
-fmt_init_read(const char **fmt, fmt_spec *spec)
+fmt_init_read(const fmt_char **fmt, fmt_spec *spec)
 {
     fmt_spec_init(spec);
 
@@ -23,7 +23,8 @@ fmt_init_read(const char **fmt, fmt_spec *spec)
 #define EXPECT_PATTERN() ASSERT_EQ(spec.kind, FMT_SPEC_KIND_PATTERN)
 
 #define EXPECT_STR(__str) \
-    ASSERT_EQ(strncmp(spec.str_start, __str, spec.str_end - spec.str_start), 0)
+    ASSERT_EQ(memcmp(spec.str_start, __str, spec.str_end - spec.str_start),\
+              0)
 #define EXPECT_STR_LEN(__len) ASSERT_EQ(spec.str_end - spec.str_start, __len)
 
 #define EXPECT_PARAM(__num) ASSERT_EQ(spec.parameter, __num)
