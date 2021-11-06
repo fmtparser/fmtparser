@@ -1,3 +1,11 @@
+/**
+ * @file
+ * fmtparser unit test program
+ *
+ * It is only effective when char type is not redefined
+ *
+ * @author Maxim Menshikov (maxim@menshikov.org)
+ */
 #include "gtest/gtest.h"
 #include "fmt_parser.h"
 #include "fmt_util.h"

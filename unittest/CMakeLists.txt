@@ -1,4 +1,6 @@
-cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
+# fmtparser's unit test build script
+# Author: Maxim Menshikov (maxim@menshikov.org)
+cmake_minimum_required(VERSION 3.16)
 
 project(fmtreader_test)
 

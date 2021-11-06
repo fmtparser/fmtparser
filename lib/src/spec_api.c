@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief Specifier API
+ * @author Maxim Menshikov (maxim@menshikov.org)
+ */
 #include <stdlib.h>
 #include <string.h>
 #include "fmt_bool.h"

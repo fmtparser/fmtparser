@@ -1,3 +1,5 @@
+# Main fmtparser's build script
+# Author: Maxim Menshikov (maxim@menshikov.org)
 cmake_minimum_required(VERSION 3.16)
 
 project(fmt_reader_main)
