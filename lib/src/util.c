@@ -104,7 +104,7 @@ fmt_spec_print(fmt_spec *spec, FILE *f)
         }
         case FMT_SPEC_KIND_PATTERN:
         {
-            if (spec->parameter != -1)
+            if (spec->parameter != FMT_VALUE_NOT_DEFINED)
             {
                 TRY_PRINTF("parameter %d", spec->parameter);
             }
@@ -132,23 +132,24 @@ fmt_spec_print(fmt_spec *spec, FILE *f)
             {
                 TRY_PRINTF("alternate form");
             }
-            if (spec->width > 0)
-            {
-                TRY_PRINTF("width %d", spec->width);
-            }
-            else if (spec->width == FMT_VALUE_OUT_OF_LINE)
+            if (spec->width == FMT_VALUE_OUT_OF_LINE)
             {
                 TRY_PRINTF("width out-of-line");
             }
-            if (spec->precision > 0)
+            else if (spec->width != FMT_VALUE_NOT_DEFINED)
             {
-                TRY_PRINTF("precision %d", spec->precision);
+                TRY_PRINTF("width %d", spec->width);
             }
-            else if (spec->precision == FMT_VALUE_OUT_OF_LINE)
+            if (spec->precision == FMT_VALUE_OUT_OF_LINE)
             {
                 TRY_PRINTF("precision out-of-line");
             }
-            if (spec->len != FMT_SPEC_LEN_UNKNOWN)
+            else if (spec->precision != FMT_VALUE_NOT_DEFINED)
+            {
+                TRY_PRINTF("precision %d", spec->precision);
+            }
+            if (spec->len != FMT_SPEC_LEN_UNKNOWN &&
+                spec->len != FMT_VALUE_NOT_DEFINED)
             {
                 TRY_PRINTF("len %s", fmt_spec_len2str(spec->len));
             }
