@@ -11,6 +11,8 @@
 #include "fmt_spec_len.h"
 #include "fmt_spec_type.h"
 
+#define FMT_VALUE_OUT_OF_LINE (-1)
+
 /** Format specifier segment. It may mean a string or a %-something mask */
 typedef struct fmt_spec
 {
@@ -30,10 +32,12 @@ typedef struct fmt_spec
                                              apostrophe */
         fmt_bool alternate:1;           /**< Alternate form, set by hash */
     } flags;
-    fmt_bool width:1;                   /**< Width is provided as a separate
-                                             parameter */
-    fmt_bool precision:1;               /**< Precision is provided as a separate
-                                             parameter */
+    int width;                          /**< A numeric width, or a
+                                             @c FMT_VALUE_OUT_OF_LINE if it is
+                                             provided as a separate parameter */
+    int precision:1;                    /**< A numeric precision, or a
+                                             @c FMT_VALUE_OUT_OF_LINE if it is
+                                             provided as a separate parameter */
     fmt_spec_len len;                   /**< Length specifier */
     fmt_spec_type type;                 /**< Type specifier */
 } fmt_spec;
