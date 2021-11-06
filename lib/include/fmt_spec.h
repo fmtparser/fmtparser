@@ -35,7 +35,7 @@ typedef struct fmt_spec
     int width;                          /**< A numeric width, or a
                                              @c FMT_VALUE_OUT_OF_LINE if it is
                                              provided as a separate parameter */
-    int precision:1;                    /**< A numeric precision, or a
+    int precision;                      /**< A numeric precision, or a
                                              @c FMT_VALUE_OUT_OF_LINE if it is
                                              provided as a separate parameter */
     fmt_spec_len len;                   /**< Length specifier */
