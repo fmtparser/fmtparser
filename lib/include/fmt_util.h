@@ -10,6 +10,11 @@
 #include "fmt_spec.h"
 #include <stdio.h>
 
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /**
  * Print format specifier
  *
@@ -37,5 +42,10 @@ extern const char *fmt_spec_len2str(fmt_spec_len len);
  * @return     String representation of length
  */
 extern const char *fmt_spec_type2str(fmt_spec_type type);
+
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

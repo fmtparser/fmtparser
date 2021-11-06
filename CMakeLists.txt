@@ -8,5 +8,6 @@ option(ENABLE_TEST "Enable tests" OFF)
 add_subdirectory(lib)
 
 if (ENABLE_TEST)
-	add_subdirectory(test)
+	include(deps/gtest.cmake)
+	add_subdirectory(unittest)
 endif ()

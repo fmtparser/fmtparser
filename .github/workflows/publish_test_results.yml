@@ -1,0 +1,16 @@
+name: Publish test results
+on:
+  workflow_run:
+    workflows: ["Unit Testing"]
+    types:
+      - completed
+jobs:
+  publish_test_results:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: dorny/test-reporter@v1
+      with:
+        artifact: test-results
+        name: Unit Tests
+        path: '*.xml'
+        reporter: jest-junit

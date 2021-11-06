@@ -23,6 +23,8 @@ while test -n "$1" ; do
     shift 1
 done
 
+exit_code="0"
+
 pushd ${TOP_DIR} > /dev/null
 mkdir -p ${build_folder}
 pushd ${build_folder} > /dev/null
@@ -32,7 +34,14 @@ cmake -GNinja \
 	  -DENABLE_STATIC=ON \
 	  ${toolchain:+${toolchain}} \
 	  ..
+exit_code="$?"
+if [ $exit_code != "0" ] ; then
+    exit $exit_code
+fi
 ninja
+exit_code="$?"
+if [ $exit_code != "0" ] ; then
+    exit $exit_code
+fi
 popd > /dev/null
 popd > /dev/null
-

@@ -20,14 +20,14 @@
     [
         {
             "name": "fmt parser build",
-            "cmd": ["./tools/make.sh"],
+            "cmd": ["./tools/make.sh --test"],
             "shell": true,
             "working_dir": "${project_path:${folder}}",
             "file_regex": "^[.\\\\/]*([a-z]?:?[\\w.\\\\/]+)[(:]([0-9]+)[,:]?([0-9]+)?[)]?:(.*)$",
         },
         {
             "name": "fmtparser build for Win32",
-            "cmd": ["./tools/make.sh --win32"],
+            "cmd": ["./tools/make.sh --test --win32"],
             "shell": true,
             "working_dir": "${project_path:${folder}}",
         }
