@@ -69,11 +69,11 @@ fmt_spec_print(fmt_spec *spec, FILE *f)
 	int 		retval;
 	fmt_bool 	write_one = FMT_FALSE;
 
-#define TRY_PRINTF(_params...)												\
+#define TRY_PRINTF(...)														\
 	{																		\
 		if (write_one)														\
 			fprintf(f, ", ");												\
-		retval = fprintf(f, _params);										\
+		retval = fprintf(f, __VA_ARGS__);									\
 		if (retval < 0)														\
 		{																	\
 			break;															\
