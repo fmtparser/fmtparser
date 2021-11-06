@@ -127,13 +127,21 @@ fmt_spec_print(fmt_spec *spec, FILE *f)
 			{
 				TRY_PRINTF("alternate form");
 			}
-			if (spec->width)
+			if (spec->width > 0)
 			{
-				TRY_PRINTF("width provided");
+				TRY_PRINTF("width %d", spec->width);
 			}
-			if (spec->precision)
+			else if (spec->width == FMT_VALUE_OUT_OF_LINE)
 			{
-				TRY_PRINTF("precision provided");
+				TRY_PRINTF("width out-of-line");
+			}
+			if (spec->precision > 0)
+			{
+				TRY_PRINTF("precision %d", spec->precision);
+			}
+			else if (spec->precision == FMT_VALUE_OUT_OF_LINE)
+			{
+				TRY_PRINTF("precision out-of-line");
 			}
 			if (spec->len != FMT_SPEC_LEN_UNKNOWN)
 			{
@@ -143,7 +151,7 @@ fmt_spec_print(fmt_spec *spec, FILE *f)
 			{
 				TRY_PRINTF("type %s", fmt_spec_type2str(spec->type));
 			}
-			TRY_PRINTF(": ");
+			TRY_PRINTF("text: ");
 			break;
 		}
 	}
