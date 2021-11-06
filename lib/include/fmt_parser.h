@@ -29,7 +29,7 @@ extern void fmt_spec_init(fmt_spec *spec);
  *
  * @return     Status code
  */
-extern fmt_status fmt_read_one(const char **fmt, fmt_spec *spec);
+extern fmt_status fmt_read_one(const fmt_char **fmt, fmt_spec *spec);
 
 /**
  * Check that read is OK and specifier parsing can be continued

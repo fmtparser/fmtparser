@@ -16,6 +16,7 @@
 #ifndef FMT_CHAR_TYPE
 /** Externally-defined char type */
 #define FMT_CHAR_TYPE char
+#define FMT_CHAR_TYPE_DEFAULT
 #endif
 
 #ifndef FMT_CHAR_CONV
