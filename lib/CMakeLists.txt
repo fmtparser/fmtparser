@@ -10,8 +10,11 @@ endif ()
 
 add_library(${PROJECT_NAME} ${FMT_PARSER_LIB_MODE}
 			src/parser.c
-			src/util.c
-			src/spec_api.c)
+			src/util.c)
+
+if (ENABLE_SPEC_API)
+	target_sources(${PROJECT_NAME} PUBLIC src/spec_api.c)
+endif ()
 
 target_include_directories(${PROJECT_NAME} PUBLIC include)
 target_include_directories(${PROJECT_NAME} PRIVATE src)

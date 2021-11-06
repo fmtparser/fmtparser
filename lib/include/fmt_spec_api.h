@@ -49,6 +49,22 @@ extern "C"
     extern void fmt_spec_free(fmt_spec *spec);
 
     /**
+     * Allocate string buffer for use in @p fmt_parser API
+     *
+     * @param      str   The string
+     *
+     * @return     Newly allocated pointer to string
+     */
+    extern char **fmt_str_alloc(char *str);
+
+    /**
+     * Free string pointer allocated by @p fmt_str_alloc()
+     *
+     * @param      str_ptr  The string pointer
+     */
+    extern void fmt_str_free(char **str_ptr);
+
+    /**
      * Get kind of a specifier
      *
      * @param      spec  The specifier
