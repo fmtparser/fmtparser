@@ -8,7 +8,10 @@ else ()
 	set(FMT_PARSER_LIB_MODE SHARED)
 endif ()
 
-add_library(${PROJECT_NAME} ${FMT_PARSER_LIB_MODE} src/parser.c src/util.c)
+add_library(${PROJECT_NAME} ${FMT_PARSER_LIB_MODE}
+			src/parser.c
+			src/util.c
+			src/spec_api.c)
 
 target_include_directories(${PROJECT_NAME} PUBLIC include)
 target_include_directories(${PROJECT_NAME} PRIVATE src)
