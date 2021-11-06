@@ -147,6 +147,23 @@ TEST(Masks, valspacex)
     ASSERT_EQ(fmt_init_read(&tmp, &spec), FMT_EEOL);
 }
 
+
+TEST(Masks, valthousandsd)
+{
+    const char *str = "%'d";
+    fmt_spec    spec;
+    fmt_status  status;
+    const char *tmp = str;
+
+    ASSERT_EQ(fmt_init_read(&tmp, &spec), FMT_EOK);
+    EXPECT_PATTERN();
+    EXPECT_STR("%'d");
+    EXPECT_TYPE(d);
+    EXPECT_FLAGS(thousands_grouping);
+
+    ASSERT_EQ(fmt_init_read(&tmp, &spec), FMT_EEOL);
+}
+
 int
 main(int argc, char **argv)
 {
