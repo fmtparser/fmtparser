@@ -20,5 +20,5 @@ jobs:
       - uses: actions/upload-artifact@v2
         if: success()
         with:
-          name: test-binaries
+          name: test-results
           path: test-results/*.xml
