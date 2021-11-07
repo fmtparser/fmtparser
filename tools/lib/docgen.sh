@@ -97,6 +97,7 @@ function static_material_copy()
     cp -R ${docs}/sphinx/* \
           ${docs}/*.rst \
           ${docs}/*.c \
+          ${docs}/*.cmake \
           ${build_folder}/rst/ || fail "Failed to copy static materials"
     return 0
 }
