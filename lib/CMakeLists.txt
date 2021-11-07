@@ -27,3 +27,19 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 	target_compile_definitions(${PROJECT_NAME} PRIVATE FMT_DEBUG=1)
     target_compile_options(${PROJECT_NAME} PUBLIC -g)
 endif ()
+
+if (WIN32 AND NOT ENABLE_STATIC)
+    set(DST_PATH bin)
+else ()
+    set(DST_PATH lib)
+endif ()
+install(TARGETS ${PROJECT_NAME}
+        RUNTIME
+        DESTINATION ${DST_PATH}
+        COMPONENT development)
+
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/
+        DESTINATION include
+        FILES_MATCHING
+            PATTERN "*.h"
+            PATTERN "*.def")
