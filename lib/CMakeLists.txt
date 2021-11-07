@@ -12,7 +12,8 @@ endif ()
 
 add_library(${PROJECT_NAME} ${FMT_PARSER_LIB_MODE}
             src/parser.c
-            src/util.c)
+            src/util.c
+            src/infer.c)
 
 if (ENABLE_SPEC_API)
     target_sources(${PROJECT_NAME} PUBLIC src/spec_api.c)
