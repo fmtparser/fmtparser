@@ -9,3 +9,11 @@ string.
 .. literalinclude:: example.c
   :language: c
   :linenos:
+
+CMake integration
+~~~~~~~~~~~~~~~~~
+Integrating into CMake projects is possible, of course. Here is an example which uses external toolchain:
+
+.. literalinclude:: example.cmake
+  :language: cmake
+  :linenos:
