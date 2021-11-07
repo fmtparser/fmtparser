@@ -9,6 +9,7 @@
 #include "gtest/gtest.h"
 #include "fmt_parser.h"
 #include "fmt_util.h"
+#include "fmt_infer.h"
 #include "wrap.hpp"
 #ifdef ENABLE_SPEC_API
 #include "fmt_spec_api.h"
@@ -262,6 +263,47 @@ TEST(encoding, utf8)
     EXPECT_STRING();
 
     ASSERT_EQ(fmt_init_read(&tmp, &spec), FMT_EEOL);
+}
+
+/* FIXME: add more inference tests */
+TEST(infer, lf)
+{
+    fmt_spec spec;
+    spec.type = FMT_SPEC_TYPE_f;
+    spec.len = FMT_SPEC_LEN_l;
+    ASSERT_EQ(strcmp(fmt_infer_pattern_type_c(&spec), "double"), 0);
+
+    spec.type = FMT_SPEC_TYPE_f;
+    spec.len = FMT_SPEC_LEN_L;
+    ASSERT_EQ(strcmp(fmt_infer_pattern_type_c(&spec), "long double"), 0);
+
+    spec.type = FMT_SPEC_TYPE_f;
+    spec.len = FMT_SPEC_LEN_ll;
+    ASSERT_EQ(strcmp(fmt_infer_pattern_type_c(&spec), "bad_type"), 0);
+}
+
+TEST(infer, x)
+{
+    fmt_spec spec;
+    spec.type = FMT_SPEC_TYPE_x;
+    spec.len = FMT_SPEC_LEN_l;
+
+    ASSERT_EQ(strcmp(fmt_infer_pattern_type_c(&spec), "unsigned long int"), 0);
+
+    spec.type = FMT_SPEC_TYPE_x;
+    spec.len = FMT_SPEC_LEN_ll;
+    ASSERT_EQ(strcmp(fmt_infer_pattern_type_c(&spec), "unsigned long long int"),
+              0);
+
+    spec.type = FMT_SPEC_TYPE_x;
+    spec.len = FMT_SPEC_LEN_hh;
+    ASSERT_EQ(strcmp(fmt_infer_pattern_type_c(&spec), "unsigned char"),
+              0);
+
+    spec.type = FMT_SPEC_TYPE_x;
+    spec.len = FMT_SPEC_LEN_h;
+    ASSERT_EQ(strcmp(fmt_infer_pattern_type_c(&spec), "unsigned short int"),
+              0);
 }
 
 #ifdef ENABLE_SPEC_API
