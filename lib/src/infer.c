@@ -101,6 +101,10 @@ static type_elem type_table[] = {
         NULL,
     },
     {
+        TYPE_TABLE_MAP(PERCENT, FMT_INFER_USE_DEFAULT),
+        NULL,
+    },
+    {
         TYPE_TABLE_MAP(d, "int"),
         table_d,
     },
@@ -165,7 +169,7 @@ static type_elem type_table[] = {
         table_f,
     },
     {
-        TYPE_TABLE_MAP(p, "double"),
+        TYPE_TABLE_MAP(A, "double"),
         table_f,
     },
     {
