@@ -306,6 +306,14 @@ TEST(infer, x)
               0);
 }
 
+TEST(infer, s)
+{
+    fmt_spec spec;
+    spec.type = FMT_SPEC_TYPE_s;
+    spec.len = FMT_SPEC_LEN_UNKNOWN;
+    ASSERT_STREQ(fmt_infer_pattern_type_c(&spec), "char *");
+}
+
 #ifdef ENABLE_SPEC_API
 
 static void
