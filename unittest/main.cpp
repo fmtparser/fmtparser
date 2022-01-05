@@ -314,6 +314,29 @@ TEST(infer, s)
     ASSERT_STREQ(fmt_infer_pattern_type_c(&spec), "char *");
 }
 
+TEST(infer, c)
+{
+    fmt_spec spec;
+    spec.type = FMT_SPEC_TYPE_c;
+    spec.len = FMT_SPEC_LEN_UNKNOWN;
+    ASSERT_STREQ(fmt_infer_pattern_type_c(&spec), "char");
+}
+
+TEST(infer, c_full)
+{
+    fmt_status  rc;
+    fmt_spec    spec;
+    const char *s = "%c";
+
+    fmt_spec_init(&spec);
+    rc = fmt_read_one(&s, &spec);
+    ASSERT_EQ(rc, FMT_EOK);
+    ASSERT_STREQ(fmt_infer_pattern_type_c(&spec),
+                 "char");
+}
+
+
+
 #ifdef ENABLE_SPEC_API
 
 static void
