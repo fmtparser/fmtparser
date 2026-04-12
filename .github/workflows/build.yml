@@ -38,14 +38,14 @@ jobs:
         run: ./tools/run_make.sh ${{ matrix.platform.flag }}
 
       - name: Upload library artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: library-${{ matrix.platform.name }}
           path: ${{ matrix.platform.folder }}/fs/**/*
           retention-days: 7
 
       - name: Upload test binary
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-binary-${{ matrix.platform.name }}
           path: ${{ matrix.platform.folder }}/unittest/fmtreader_test*
@@ -58,7 +58,7 @@ jobs:
 
     steps:
       - name: Download test binary
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: test-binary-Linux
           path: test-binary
@@ -70,7 +70,7 @@ jobs:
           ./fmtreader_test --gtest_output=xml:test-results.xml
 
       - name: Upload test results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: test-results-Linux
@@ -84,7 +84,7 @@ jobs:
 
     steps:
       - name: Download test binary
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: test-binary-Windows
           path: test-binary
@@ -107,7 +107,7 @@ jobs:
           wine ./fmtreader_test.exe --gtest_output=xml:test-results.xml || true
 
       - name: Upload test results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: test-results-Windows
@@ -121,7 +121,7 @@ jobs:
 
     steps:
       - name: Download all test results
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           pattern: test-results-*
           path: test-results
