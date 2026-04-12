@@ -885,6 +885,113 @@ TEST(util, read_is_ok)
     ASSERT_EQ(fmt_read_is_ok(FMT_EEOL), FMT_FALSE);
 }
 
+/* Tests for fixed bugs */
+
+TEST(infer, null_spec)
+{
+    /* Bug: fmt_infer_pattern_type_c dereferenced spec without NULL check */
+    ASSERT_EQ(fmt_infer_pattern_type_c(NULL), nullptr);
+}
+
+TEST(infer, out_of_bounds_len)
+{
+    /* Bug: no bounds check on spec->len before indexing into the table */
+    fmt_spec spec;
+    spec.type = FMT_SPEC_TYPE_d;
+    /* Intentionally invalid len value, out of table bounds */
+    spec.len = (fmt_spec_len)0xFF;
+    ASSERT_EQ(fmt_infer_pattern_type_c(&spec), nullptr);
+}
+
+TEST(infer, float_bad_type_j_modifier)
+{
+    /* Bug: table_f had "uintmax_t" for %jf instead of bad_type */
+    fmt_spec spec;
+    spec.type = FMT_SPEC_TYPE_f;
+    spec.len = FMT_SPEC_LEN_j;
+    ASSERT_STREQ(fmt_infer_pattern_type_c(&spec), FMT_INFER_BAD_TYPE);
+}
+
+TEST(infer, float_bad_type_t_modifier)
+{
+    /* Bug: table_f had "ptrdiff_t" for %tf instead of bad_type */
+    fmt_spec spec;
+    spec.type = FMT_SPEC_TYPE_f;
+    spec.len = FMT_SPEC_LEN_t;
+    ASSERT_STREQ(fmt_infer_pattern_type_c(&spec), FMT_INFER_BAD_TYPE);
+}
+
+TEST(infer, float_bad_type_j_modifier_variants)
+{
+    /* Check all float variants with j modifier */
+    fmt_spec spec;
+    spec.len = FMT_SPEC_LEN_j;
+
+    spec.type = FMT_SPEC_TYPE_e;
+    ASSERT_STREQ(fmt_infer_pattern_type_c(&spec), FMT_INFER_BAD_TYPE);
+
+    spec.type = FMT_SPEC_TYPE_g;
+    ASSERT_STREQ(fmt_infer_pattern_type_c(&spec), FMT_INFER_BAD_TYPE);
+
+    spec.type = FMT_SPEC_TYPE_a;
+    ASSERT_STREQ(fmt_infer_pattern_type_c(&spec), FMT_INFER_BAD_TYPE);
+}
+
+#ifdef ENABLE_SPEC_API
+TEST(spec_api, alloc_initialized)
+{
+    /* Bug: fmt_spec_alloc did not initialize allocated memory,
+       fields contained garbage instead of correct initial values */
+    fmt_spec *spec = fmt_spec_alloc();
+    ASSERT_NE(spec, nullptr);
+
+    /* Verify fields have correct initial values */
+    ASSERT_EQ(fmt_spec_get_parameter(spec), FMT_VALUE_NOT_DEFINED);
+    ASSERT_EQ(fmt_spec_get_width(spec), FMT_VALUE_NOT_DEFINED);
+    ASSERT_EQ(fmt_spec_get_precision(spec), FMT_VALUE_NOT_DEFINED);
+    ASSERT_EQ(fmt_spec_get_kind(spec), (uint32_t)FMT_SPEC_KIND_UNKNOWN);
+    ASSERT_EQ(fmt_spec_get_type(spec), (uint32_t)FMT_SPEC_TYPE_UNKNOWN);
+
+    /* All flags must be cleared */
+    ASSERT_EQ(fmt_spec_get_flag(spec, FMT_FLAG_LEFT_ALIGN), FMT_FALSE);
+    ASSERT_EQ(fmt_spec_get_flag(spec, FMT_FLAG_PREPEND_PLUS), FMT_FALSE);
+    ASSERT_EQ(fmt_spec_get_flag(spec, FMT_FLAG_PREPEND_SPACE), FMT_FALSE);
+    ASSERT_EQ(fmt_spec_get_flag(spec, FMT_FLAG_PREPEND_ZERO), FMT_FALSE);
+    ASSERT_EQ(fmt_spec_get_flag(spec, FMT_FLAG_THOUSANDS_GROUPING), FMT_FALSE);
+    ASSERT_EQ(fmt_spec_get_flag(spec, FMT_FLAG_ALTERNATE), FMT_FALSE);
+
+    fmt_spec_free(spec);
+}
+#endif
+
+TEST(Masks, backtrack_no_type)
+{
+    /* Bug: FMT_READ macro saved the pointer address (NOP) instead of the cursor value.
+       Verify that the parser correctly handles partial matches */
+    const char *str = "hello %";
+    fmt_spec    spec;
+    const char *tmp = str;
+
+    /* String before % */
+    ASSERT_EQ(fmt_init_read(&tmp, &spec), FMT_EOK);
+    EXPECT_STRING();
+    EXPECT_STR("hello ");
+
+    /* % without a type - error */
+    ASSERT_EQ(fmt_init_read(&tmp, &spec), FMT_EFAIL);
+}
+
+TEST(Masks, backtrack_flags_then_no_type)
+{
+    /* Flags parsed but type is missing - parser must return error,
+       not hang or return garbage */
+    const char *str = "%-";
+    fmt_spec    spec;
+    const char *tmp = str;
+
+    ASSERT_EQ(fmt_init_read(&tmp, &spec), FMT_EFAIL);
+}
+
 TEST(Masks, real_world_examples)
 {
     // Example from printf man page
