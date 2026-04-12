@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Load required libraries
+load_library toolchain
+
 # Cleanup the build directory
 function cleanup_docgen()
 {
@@ -35,7 +38,10 @@ function doxyrest_download()
     local folder="$1"
     local tmp_folder="$2"
     local doxy_path
-    local comp=$(lib_site_get_platform_component_var SITE_URL_DOXYREST_PREBUILT linux)
+
+    local plat="$(get_native_plat)"
+
+    local comp=$(lib_site_get_platform_component_var SITE_URL_DOXYREST_PREBUILT $plat)
 
     lib_site_load_component doxy_path ${comp}
 
@@ -57,12 +63,27 @@ function doxyrest_invoke()
 {
     local doxyrest_path="$1"
     local doc_folder="$2"
+    local plat="$(get_native_plat)"
 
     export PATH=${doxyrest_path}/bin:${PATH}
-    doxyrest "--config=${doc_folder}/doxyrest-config.lua" \
-             "--frame-dir=${doxyrest_path}/share/doxyrest/frame/cfamily" \
-             "--frame-dir=${doxyrest_path}/share/doxyrest/frame/common" || \
+
+    if [ "$plat" == "linux" ] ; then
+        doxyrest "--config=${doc_folder}/doxyrest-config.lua" \
+               "--frame-dir=${doxyrest_path}/share/doxyrest/frame/cfamily" \
+               "--frame-dir=${doxyrest_path}/share/doxyrest/frame/common" || \
         fail "Failed to get doxyrest documentation"
+    else
+        local tty_flag=""
+        [ -t 0 ] && tty_flag="-it" || tty_flag="-i"
+        docker run --platform linux/amd64 \
+               -w ${TOP_DIR} \
+               -v ${TOP_DIR}:${TOP_DIR} \
+               ${tty_flag} interpretica/doxyrest \
+               doxyrest "--config=${doc_folder}/doxyrest-config.lua" \
+               "--frame-dir=${doxyrest_path}/share/doxyrest/frame/cfamily" \
+               "--frame-dir=${doxyrest_path}/share/doxyrest/frame/common" || \
+        fail "Failed to get doxyrest documentation"
+    fi
 }
 
 # Download theme
@@ -70,12 +91,24 @@ function theme_download()
 {
     local folder="$1"
     local theme
+    local local_theme
 
     lib_site_load_component theme SITE_REPO_SPHINX_THEME
 
+    # Prefer local workspace copy of sphinx_redactor_theme if available
+    local_theme="$(dirname "${TOP_DIR}")/sphinx_redactor_theme"
+    if [ -d "${local_theme}" ] ; then
+        theme="${local_theme}"
+    fi
+
     if [ ! -d "${folder}" ] ; then
-        git clone "${theme}" "${folder}" || \
-            fail "Failed to clone theme"
+        if [ -d "${theme}" ] ; then
+            cp -R "${theme}" "${folder}" || \
+                fail "Failed to copy local theme"
+        else
+            git clone "${theme}" "${folder}" || \
+                fail "Failed to clone theme"
+        fi
         mkdir -p "${THEME_PATH}" || \
             fail "Failed to create a folder for theme"
         pushd "${folder}" > /dev/null

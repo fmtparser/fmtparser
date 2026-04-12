@@ -31,13 +31,13 @@ function lib_site_get_component_addr()
 
     # Truncate extra symbols
     if [[ "$line" == *")" ]] ; then
-        line="${line::-1}"
+        line="${line:0:$((${#line} - 1))}"
     fi
     if [[ "$line" == "\""* ]] ; then
         line="${line:1}"
     fi
     if [[ "$line" == *"\"" ]] ; then
-        line="${line::-1}"
+        line="${line:0:$((${#line} - 1))}"
     fi
 
     echo "$line"
@@ -71,6 +71,9 @@ function lib_site_get_platform_component_var()
             ;;
         win32)
             name="WIN32"
+            ;;
+        macos)
+            name="MACOS"
             ;;
         *)
             name="UNKNOWN"

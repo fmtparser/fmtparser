@@ -46,6 +46,15 @@ function lib_core_import_var()
     return 0
 }
 
+function lib_core_normalize_bool()
+{
+    if [ "$1" == "1" ] ; then
+        echo "yes"
+    else
+        echo "no"
+    fi
+}
+
 # Determine project's top directory
 lib_core_export_var TOP_DIR     "$(cd "$(dirname "$(which "$0")")"/.. ; pwd -P)"
 lib_core_export_var TOOLS_DIR   "${TOP_DIR}/tools"

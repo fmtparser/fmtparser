@@ -23,6 +23,7 @@ while test -n "$1" ; do
             ;;
         --public)
             include_doxyrest=
+            export EXCLUDE_PRIVATE=y
             ;;
         --without-pdf)
             include_pdf=
