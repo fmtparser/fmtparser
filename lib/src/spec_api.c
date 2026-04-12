@@ -17,6 +17,8 @@ fmt_spec_alloc(void)
 {
     fmt_spec *spec = malloc(sizeof(fmt_spec));
 
+    if (spec != NULL)
+        fmt_spec_init(spec);
     return spec;
 }
 

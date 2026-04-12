@@ -4,7 +4,7 @@
  * @author Maxim Menshikov (maxim@menshikov.org)
  */
 #include <stddef.h>
-#include <stddef.h>
+#include <string.h>
 #include "fmt_infer.h"
 
 #define FMT_INFER_USE_DEFAULT   "use_default"
@@ -67,8 +67,8 @@ static subtype_elem table_f[] = {
     LEN2NAME_MAP(ll, FMT_INFER_BAD_TYPE),
     LEN2NAME_MAP(L, "long double"),
     LEN2NAME_MAP(z, FMT_INFER_BAD_TYPE),
-    LEN2NAME_MAP(j, "uintmax_t"),
-    LEN2NAME_MAP(t, "ptrdiff_t"),
+    LEN2NAME_MAP(j, FMT_INFER_BAD_TYPE),
+    LEN2NAME_MAP(t, FMT_INFER_BAD_TYPE),
 };
 
 static subtype_elem table_s[] = {
@@ -178,6 +178,8 @@ static type_elem type_table[] = {
     },
 };
 
+#define LEN_TABLE_SIZE (sizeof(table_d) / sizeof(*table_d))
+
 /* See the description in fmt_infer.h */
 const char *
 fmt_infer_pattern_type_c(fmt_spec *spec)
@@ -186,24 +188,29 @@ fmt_infer_pattern_type_c(fmt_spec *spec)
     subtype_elem *sub;
     const char   *str;
 
+    if (spec == NULL)
+        return NULL;
+
     if ((size_t)spec->type >= sizeof(type_table) / sizeof(*type_table))
         return NULL;
 
     el = &type_table[(size_t)spec->type];
-    if (el == NULL || el->str == NULL || el->str == FMT_INFER_USE_DEFAULT ||
+    if (el->str == NULL ||
+        strcmp(el->str, FMT_INFER_USE_DEFAULT) == 0 ||
         el->table == NULL)
     {
         return NULL;
     }
 
-    sub = &el->table[(size_t)spec->len];
-    if (sub == NULL)
+    if ((size_t)spec->len >= LEN_TABLE_SIZE)
         return NULL;
 
+    sub = &el->table[(size_t)spec->len];
+
     str = sub->str;
-    if (str == FMT_INFER_USE_DEFAULT)
+    if (strcmp(str, FMT_INFER_USE_DEFAULT) == 0)
         str = el->str;
-    if (str == FMT_INFER_USE_DEFAULT)
+    if (strcmp(str, FMT_INFER_USE_DEFAULT) == 0)
         str = NULL;
 
     return str;

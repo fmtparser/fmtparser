@@ -48,7 +48,6 @@ fmt_read_parameter(const fmt_char **fmt, fmt_spec *spec)
 static fmt_status
 fmt_read_flags(const fmt_char **fmt, fmt_spec *spec)
 {
-    uint32_t num = 0;
     fmt_bool found = FMT_FALSE;
 
     while (**fmt)
@@ -63,23 +62,23 @@ fmt_read_flags(const fmt_char **fmt, fmt_spec *spec)
                 found = FMT_TRUE;
                 break;
             case FMT_CHAR_CONV('+'):
-                spec->flags.prepend_plus = 1;
+                spec->flags.prepend_plus = FMT_TRUE;
                 found = FMT_TRUE;
                 break;
             case FMT_CHAR_CONV(' '):
-                spec->flags.prepend_space = 1;
+                spec->flags.prepend_space = FMT_TRUE;
                 found = FMT_TRUE;
                 break;
             case FMT_CHAR_CONV('0'):
-                spec->flags.prepend_zero = 1;
+                spec->flags.prepend_zero = FMT_TRUE;
                 found = FMT_TRUE;
                 break;
             case FMT_CHAR_CONV('\''):
-                spec->flags.thousands_grouping = 1;
+                spec->flags.thousands_grouping = FMT_TRUE;
                 found = FMT_TRUE;
                 break;
             case FMT_CHAR_CONV('#'):
-                spec->flags.alternate = 1;
+                spec->flags.alternate = FMT_TRUE;
                 found = FMT_TRUE;
                 break;
             default:
@@ -178,8 +177,6 @@ fmt_read_precision(const fmt_char **fmt, fmt_spec *spec)
 static fmt_status
 fmt_read_length(const fmt_char **fmt, fmt_spec *spec)
 {
-    uint32_t width = 0;
-
     while (**fmt)
     {
         const fmt_char c = **fmt;
@@ -336,8 +333,8 @@ fmt_read_one(const fmt_char **fmt, fmt_spec *spec)
 #define FMT_READ(_func_call)                                       \
     do                                                             \
     {                                                              \
-        fmt_status       status;                                   \
-        const fmt_char **old_fmt = fmt;                            \
+        fmt_status      status;                                    \
+        const fmt_char *saved_pos = *fmt;                          \
                                                                    \
         if (sizeof(fmt_char) == sizeof(char))                      \
             DBG("before %s: %s", #_func_call, (char *)*fmt);       \
@@ -347,7 +344,7 @@ fmt_read_one(const fmt_char **fmt, fmt_spec *spec)
         if (status == FMT_ESTATE)                                  \
         {                                                          \
             DBG("%s is missing", #_func_call);                     \
-            fmt = old_fmt;                                         \
+            *fmt = saved_pos;                                      \
         }                                                          \
         else if (status != FMT_EOK)                                \
         {                                                          \
